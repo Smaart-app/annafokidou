@@ -34,15 +34,22 @@ It does not use cookies. The browser creates an anonymous per-tab session id in 
    ANALYTICS_DASHBOARD_TOKEN=choose-a-long-private-token
    ```
 
-4. Deploy the site.
-5. Visit the portfolio once to confirm it loads.
-6. Open the dashboard:
+4. If the analytics function reports `MissingBlobsEnvironmentError`, add:
+
+   ```text
+   NETLIFY_SITE_ID=your-site-id
+   NETLIFY_BLOBS_TOKEN=your-netlify-personal-access-token
+   ```
+
+5. Deploy the site.
+6. Visit the portfolio once to confirm it loads.
+7. Open the dashboard:
 
    ```text
    https://your-domain.com/dashboard/analytics.html
    ```
 
-7. Enter the same dashboard token.
+8. Enter the same dashboard token.
 
 ## Local Development
 

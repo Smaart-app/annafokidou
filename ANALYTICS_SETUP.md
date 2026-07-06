@@ -28,13 +28,23 @@ The browser script does not use cookies. It creates an anonymous per-tab session
    ANALYTICS_DASHBOARD_TOKEN=choose-a-long-private-token
    ```
 
-3. Open the dashboard after deploy:
+3. If Netlify shows a `MissingBlobsEnvironmentError`, add these environment variables too:
+
+   ```text
+   NETLIFY_SITE_ID=your-site-id
+   NETLIFY_BLOBS_TOKEN=your-netlify-personal-access-token
+   ```
+
+   You can find the site id in Netlify under `Project configuration -> Project details -> Site ID`.
+   Create the token under `User settings -> Applications -> Personal access tokens`.
+
+4. Open the dashboard after deploy:
 
    ```text
    https://your-site.netlify.app/dashboard/analytics.html
    ```
 
-4. Enter the same token in the dashboard. The token is saved only in your browser local storage.
+5. Enter the same token in the dashboard. The token is saved only in your browser local storage.
 
 ## Local development
 

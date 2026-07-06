@@ -46,7 +46,7 @@ async function saveEvent(event) {
 
   const now = new Date();
   const clean = sanitizeEvent(input, event, now);
-  const store = getStore(STORE_NAME);
+  const store = getAnalyticsStore();
   const day = now.toISOString().slice(0, 10);
   const key = `events/${day}/${clean.id}.json`;
 
@@ -64,7 +64,7 @@ async function getSummary(event) {
   }
 
   const days = clampNumber(event.queryStringParameters?.days, 1, 90, 30);
-  const store = getStore(STORE_NAME);
+  const store = getAnalyticsStore();
   const events = [];
 
   for (const prefix of datePrefixes(days)) {
@@ -77,6 +77,21 @@ async function getSummary(event) {
   }
 
   return respond(200, summarize(events, days));
+}
+
+function getAnalyticsStore() {
+  const siteID = process.env.NETLIFY_SITE_ID || process.env.SITE_ID || "";
+  const token = process.env.NETLIFY_BLOBS_TOKEN || process.env.NETLIFY_AUTH_TOKEN || "";
+
+  if (siteID && token) {
+    return getStore({
+      name: STORE_NAME,
+      siteID,
+      token,
+    });
+  }
+
+  return getStore(STORE_NAME);
 }
 
 function sanitizeEvent(input, requestEvent, now) {
