@@ -1,0 +1,15 @@
+{
+  "name": "annafokidou-quiet-analytics",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "netlify dev",
+    "build": "echo \"Static portfolio\""
+  },
+  "dependencies": {
+    "@netlify/blobs": "^8.2.0"
+  },
+  "devDependencies": {
+    "netlify-cli": "^17.38.1"
+  }
+}

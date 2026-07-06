@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quiet Portfolio Analytics</title>
+  <style>
+    :root {
+      --ink: #111315;
+      --paper: #f7f2ea;
+      --muted: #a9a096;
+      --line: rgba(247, 242, 234, 0.16);
+      --moss: #34564e;
+      --clay: #b7644d;
+      --gold: #c6a15b;
+      --sky: #3aa7c7;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: var(--ink);
+      color: var(--paper);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.45;
+    }
+
+    main {
+      width: min(100% - 32px, 1180px);
+      margin: 0 auto;
+      padding: 34px 0 56px;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      align-items: end;
+      padding-bottom: 22px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    h1,
+    h2,
+    p {
+      margin: 0;
+    }
+
+    h1 {
+      font-size: clamp(30px, 5vw, 62px);
+      font-weight: 700;
+      letter-spacing: 0;
+    }
+
+    h2 {
+      font-size: 15px;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 14px;
+    }
+
+    .controls {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    input,
+    select,
+    button {
+      min-height: 42px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: rgba(247, 242, 234, 0.06);
+      color: var(--paper);
+      padding: 0 12px;
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
+      background: var(--paper);
+      color: var(--ink);
+      font-weight: 700;
+    }
+
+    .status {
+      color: var(--muted);
+      margin-top: 12px;
+      min-height: 22px;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      gap: 12px;
+      margin: 26px 0;
+    }
+
+    .stat,
+    .panel {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: rgba(247, 242, 234, 0.055);
+    }
+
+    .stat {
+      padding: 16px;
+      min-height: 116px;
+    }
+
+    .stat span {
+      display: block;
+      color: var(--muted);
+      font-size: 12px;
+      text-transform: uppercase;
+    }
+
+    .stat strong {
+      display: block;
+      margin-top: 12px;
+      font-size: 32px;
+      line-height: 1;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .panel {
+      padding: 18px;
+      min-height: 260px;
+    }
+
+    .bar-row {
+      display: grid;
+      grid-template-columns: minmax(110px, 1fr) minmax(120px, 2fr) 42px;
+      gap: 10px;
+      align-items: center;
+      margin: 10px 0;
+      color: var(--paper);
+      font-size: 14px;
+    }
+
+    .bar {
+      height: 10px;
+      border-radius: 999px;
+      background: rgba(247, 242, 234, 0.1);
+      overflow: hidden;
+    }
+
+    .bar span {
+      display: block;
+      height: 100%;
+      width: var(--width);
+      background: var(--gold);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+
+    th,
+    td {
+      border-bottom: 1px solid var(--line);
+      padding: 10px 8px;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      color: var(--muted);
+      font-weight: 500;
+      text-transform: uppercase;
+      font-size: 11px;
+    }
+
+    @media (max-width: 900px) {
+      header,
+      .grid {
+        grid-template-columns: 1fr;
+      }
+
+      header {
+        display: grid;
+        align-items: start;
+      }
+
+      .controls {
+        justify-content: stretch;
+      }
+
+      input,
+      select,
+      button {
+        width: 100%;
+      }
+
+      .stats {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <div>
+        <h1>Quiet Analytics</h1>
+        <p class="status" id="status">Enter your dashboard token to load private stats.</p>
+      </div>
+      <form class="controls" id="controls">
+        <input id="token" name="token" type="password" placeholder="Dashboard token" autocomplete="current-password" />
+        <select id="days" name="days" aria-label="Date range">
+          <option value="7">7 days</option>
+          <option value="30" selected>30 days</option>
+          <option value="90">90 days</option>
+        </select>
+        <button type="submit">Load</button>
+      </form>
+    </header>
+
+    <section class="stats" id="stats"></section>
+
+    <section class="grid">
+      <div class="panel">
+        <h2>Referrers</h2>
+        <div id="referrers"></div>
+      </div>
+      <div class="panel">
+        <h2>UTM Sources</h2>
+        <div id="utmSources"></div>
+      </div>
+      <div class="panel">
+        <h2>Contact Clicks</h2>
+        <div id="contactClicks"></div>
+      </div>
+      <div class="panel">
+        <h2>Project Clicks</h2>
+        <div id="projectClicks"></div>
+      </div>
+      <div class="panel">
+        <h2>Project Opens</h2>
+        <div id="projectOpens"></div>
+      </div>
+      <div class="panel">
+        <h2>Daily Views</h2>
+        <div id="daily"></div>
+      </div>
+    </section>
+
+    <section class="panel" style="margin-top: 14px;">
+      <h2>Recent Events</h2>
+      <div id="recent"></div>
+    </section>
+  </main>
+
+  <script>
+    const endpoint = "/.netlify/functions/analytics";
+    const controls = document.getElementById("controls");
+    const status = document.getElementById("status");
+    const tokenInput = document.getElementById("token");
+    const daysInput = document.getElementById("days");
+
+    tokenInput.value = localStorage.getItem("af_dashboard_token") || "";
+
+    controls.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      localStorage.setItem("af_dashboard_token", tokenInput.value);
+      await load();
+    });
+
+    if (tokenInput.value) load();
+
+    async function load() {
+      status.textContent = "Loading...";
+      const params = new URLSearchParams({
+        token: tokenInput.value,
+        days: daysInput.value,
+      });
+
+      const response = await fetch(`${endpoint}?${params.toString()}`);
+      if (!response.ok) {
+        status.textContent = response.status === 401 ? "Unauthorized. Check ANALYTICS_DASHBOARD_TOKEN." : "Could not load analytics.";
+        return;
+      }
+
+      const data = await response.json();
+      render(data);
+      status.textContent = `Updated ${new Date(data.generatedAt).toLocaleString()} for the last ${data.rangeDays} days.`;
+    }
+
+    function render(data) {
+      const totals = data.totals;
+      document.getElementById("stats").innerHTML = [
+        stat("Page views", totals.pageViews),
+        stat("Sessions", totals.sessions),
+        stat("Contact clicks", totals.contactClicks),
+        stat("Project clicks", totals.projectClicks),
+        stat("Avg scroll", `${totals.averageScrollDepth}%`),
+        stat("Avg time", formatSeconds(totals.averageTimeOnPageSeconds)),
+      ].join("");
+
+      bars("referrers", data.referrers);
+      bars("utmSources", data.utmSources);
+      bars("contactClicks", data.contactClicks);
+      bars("projectClicks", data.projectClicks);
+      bars("projectOpens", data.projectOpens);
+      bars("daily", data.daily.map((item) => ({ label: item.date, count: item.pageViews })));
+      recent(data.recent);
+    }
+
+    function stat(label, value) {
+      return `<div class="stat"><span>${escapeHtml(label)}</span><strong>${escapeHtml(String(value))}</strong></div>`;
+    }
+
+    function bars(id, items) {
+      const target = document.getElementById(id);
+      if (!items.length) {
+        target.innerHTML = "<p class=\"status\">No data yet.</p>";
+        return;
+      }
+
+      const max = Math.max(...items.map((item) => item.count));
+      target.innerHTML = items
+        .map((item) => {
+          const width = Math.max(4, Math.round((item.count / max) * 100));
+          return `
+            <div class="bar-row">
+              <span>${escapeHtml(item.label)}</span>
+              <div class="bar"><span style="--width: ${width}%"></span></div>
+              <strong>${item.count}</strong>
+            </div>
+          `;
+        })
+        .join("");
+    }
+
+    function recent(items) {
+      const target = document.getElementById("recent");
+      if (!items.length) {
+        target.innerHTML = "<p class=\"status\">No data yet.</p>";
+        return;
+      }
+
+      target.innerHTML = `
+        <table>
+          <thead>
+            <tr>
+              <th>Time</th>
+              <th>Event</th>
+              <th>Detail</th>
+              <th>Referrer</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${items
+              .map((item) => {
+                const detail = item.details.projectTitle || item.details.destination || item.details.label || item.details.depth || "";
+                return `
+                  <tr>
+                    <td>${escapeHtml(new Date(item.occurredAt).toLocaleString())}</td>
+                    <td>${escapeHtml(item.eventType)}</td>
+                    <td>${escapeHtml(String(detail))}</td>
+                    <td>${escapeHtml(item.referrer || "Direct")}</td>
+                  </tr>
+                `;
+              })
+              .join("")}
+          </tbody>
+        </table>
+      `;
+    }
+
+    function formatSeconds(value) {
+      if (!value) return "0s";
+      const minutes = Math.floor(value / 60);
+      const seconds = value % 60;
+      return minutes ? `${minutes}m ${seconds}s` : `${seconds}s`;
+    }
+
+    function escapeHtml(value) {
+      return value.replace(/[&<>"']/g, (char) => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#039;",
+      })[char]);
+    }
+  </script>
+</body>
+</html>
