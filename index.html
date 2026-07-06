@@ -6,20 +6,20 @@
   <title>Anna Fokidou | Independent Digital Products & Spatial Web Design</title>
   <meta
     name="description"
-    content="Anna Fokidou designs self-initiated digital products, clarity tools and atmospheric websites with a spatial, cinematic eye."
+    content="Anna Fokidou designs research-led digital products, clarity tools and atmospheric websites with a spatial, cinematic eye."
   />
 
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="Anna Fokidou" />
   <meta property="og:title" content="Anna Fokidou | Independent Digital Products & Spatial Web Design" />
-  <meta property="og:description" content="Anna Fokidou designs self-initiated digital products, clarity tools and atmospheric websites with a spatial, cinematic eye." />
+  <meta property="og:description" content="Anna Fokidou designs research-led digital products, clarity tools and atmospheric websites with a spatial, cinematic eye." />
   <meta property="og:image" content="og-image.jpg" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
   <meta property="og:image:alt" content="Anna's hummingbird portfolio preview for Anna Fokidou" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Anna Fokidou | Independent Digital Products & Spatial Web Design" />
-  <meta name="twitter:description" content="Anna Fokidou designs self-initiated digital products, clarity tools and atmospheric websites with a spatial, cinematic eye." />
+  <meta name="twitter:description" content="Anna Fokidou designs research-led digital products, clarity tools and atmospheric websites with a spatial, cinematic eye." />
   <meta name="twitter:image" content="og-image.jpg" />
   <meta name="twitter:image:alt" content="Anna's hummingbird portfolio preview for Anna Fokidou" />
   <style>
@@ -115,8 +115,33 @@
       text-transform: uppercase;
     }
 
-    .brand {
+    .section-toggle {
       justify-self: start;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border: 0;
+      background: transparent;
+      color: var(--paper);
+      font: inherit;
+      font-weight: 700;
+      text-transform: uppercase;
+      cursor: pointer;
+      white-space: nowrap;
+      padding: 12px 0;
+    }
+
+    .section-indicator {
+      color: var(--gold);
+      transition: transform 180ms ease;
+    }
+
+    .topbar.menu-open .section-indicator {
+      transform: rotate(45deg);
+    }
+
+    .brand {
+      justify-self: end;
       font-weight: 700;
       color: var(--paper);
       white-space: nowrap;
@@ -169,76 +194,75 @@
     }
 
     nav {
-      grid-column: 1 / -1;
-      grid-row: 2;
-      justify-self: stretch;
+      position: absolute;
+      top: calc(100% + 10px);
+      left: clamp(26px, 4vw, 64px);
       display: none;
-      align-items: center;
-      justify-content: center;
-      gap: 22px;
-      flex-wrap: wrap;
-      padding-top: 18px;
-      border-top: 1px solid var(--line);
+      justify-items: start;
+      align-content: start;
+      grid-template-columns: 1fr;
+      gap: 0;
+      width: min(232px, calc(100vw - 40px));
+      padding: 8px 12px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: rgba(17, 19, 21, 0.98);
+      backdrop-filter: blur(18px);
+      box-shadow: 0 18px 48px rgba(0, 0, 0, 0.34);
       white-space: nowrap;
     }
 
     .topbar.menu-open nav {
-      display: flex;
+      display: grid;
     }
 
     nav a,
     .text-link {
       color: rgba(244, 240, 232, 0.72);
-      transition: color 180ms ease, opacity 180ms ease;
+      transition: color 180ms ease, opacity 180ms ease, background 180ms ease;
+    }
+
+    nav a {
+      position: relative;
+      display: block;
+      width: 100%;
+      padding: 13px 22px 13px 10px;
+      border-bottom: 1px solid rgba(244, 240, 232, 0.08);
+      text-align: left;
+    }
+
+    nav a:last-child {
+      border-bottom: 0;
+    }
+
+    nav a::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      right: 8px;
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: var(--gold);
+      opacity: 0;
+      transform: translateY(-50%);
+      transition: opacity 180ms ease;
     }
 
     nav a:hover,
+    nav a[aria-current="page"],
     .text-link:hover {
       color: var(--paper);
     }
 
-    .menu-toggle {
-      display: inline-flex;
-      width: 42px;
-      height: 42px;
-      align-items: center;
-      justify-content: center;
-      justify-self: end;
-      border: 1px solid var(--line);
-      border-radius: 50%;
-      background: transparent;
-      color: var(--paper);
-      cursor: pointer;
+    nav a:hover {
+      background: rgba(244, 240, 232, 0.04);
     }
 
-    .menu-toggle span,
-    .menu-toggle::before,
-    .menu-toggle::after {
-      content: "";
-      display: block;
-      width: 18px;
-      height: 2px;
-      border-radius: 999px;
-      background: currentColor;
-      transition: transform 180ms ease, opacity 180ms ease;
+    nav a[aria-current="page"]::after {
+      opacity: 1;
     }
 
-    .menu-toggle {
-      flex-direction: column;
-      gap: 5px;
-    }
-
-    .topbar.menu-open .menu-toggle::before {
-      transform: translateY(7px) rotate(45deg);
-    }
-
-    .topbar.menu-open .menu-toggle span {
-      opacity: 0;
-    }
-
-    .topbar.menu-open .menu-toggle::after {
-      transform: translateY(-7px) rotate(-45deg);
-    }
 
     .hero {
       min-height: calc(100vh - 86px);
@@ -711,16 +735,23 @@
       }
 
       .topbar {
-        grid-template-columns: 42px minmax(0, 1fr) 42px;
+        grid-template-columns: minmax(72px, 1fr) auto minmax(72px, 1fr);
         gap: 12px;
         padding: 16px 14px;
         min-height: auto;
       }
 
-      .brand {
-        grid-column: 2;
+      .section-toggle {
+        grid-column: 1;
         grid-row: 1;
-        justify-self: center;
+        justify-self: start;
+      }
+
+      .brand {
+        grid-column: 3;
+        grid-row: 1;
+        justify-self: end;
+        font-size: 11px;
       }
 
       .signature {
@@ -739,20 +770,13 @@
         height: 28px;
       }
 
-      .menu-toggle {
-        grid-column: 3;
-        grid-row: 1;
-      }
-
       nav {
-        grid-column: 1 / -1;
-        grid-row: 3;
-        width: 100%;
-        justify-self: stretch;
-        justify-content: center;
+        top: calc(100% + 8px);
+        left: 14px;
+        grid-template-columns: 1fr;
+        width: min(232px, calc(100vw - 28px));
         gap: 0;
-        padding-top: 10px;
-        border-top: 1px solid var(--line);
+        padding: 8px 12px;
       }
 
       .topbar.menu-open nav {
@@ -761,8 +785,8 @@
 
       nav a {
         display: block;
-        padding: 11px 0;
-        text-align: center;
+        padding: 13px 22px 13px 10px;
+        text-align: left;
       }
 
       h1 {
@@ -807,7 +831,10 @@
 <body>
   <div class="site">
     <header class="topbar shell">
-      <a class="brand" href="#">Anna Fokidou</a>
+      <button class="section-toggle" type="button" aria-label="Open section menu" aria-expanded="false" aria-controls="mainNav">
+        <span class="current-section">Home</span>
+        <span class="section-indicator" aria-hidden="true">+</span>
+      </button>
 
       <div class="signature" aria-label="Anna's hummingbird signature">
         <svg class="bird-mark" viewBox="0 0 92 54" role="img" aria-label="Minimal Anna's hummingbird mark">
@@ -819,21 +846,19 @@
         <span>Anna's hummingbird</span>
       </div>
 
-      <button class="menu-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mainNav">
-        <span></span>
-      </button>
+      <a class="brand" href="#">Anna Fokidou</a>
 
       <nav id="mainNav" aria-label="Main navigation">
-        <a href="#">Home</a>
-        <a href="#practice">Practice</a>
-        <a href="#work">Work</a>
-        <a href="#method">Method</a>
-        <a href="#contact">Contact</a>
+        <a href="#home" data-section-title="Home">Home</a>
+        <a href="#practice" data-section-title="Practice">Practice</a>
+        <a href="#work" data-section-title="Work">Work</a>
+        <a href="#method" data-section-title="Method">Method</a>
+        <a href="#contact" data-section-title="Contact">Contact</a>
       </nav>
     </header>
 
     <main>
-      <section class="hero shell" aria-label="Introduction">
+      <section class="hero shell" id="home" aria-label="Introduction">
         <div class="hero-copy">
           <div>
             <p class="eyebrow">Independent digital products / clarity tools / spatial web design</p>
@@ -841,7 +866,7 @@
           </div>
 
           <div class="hero-bottom">
-            <p class="availability">Self-initiated work, built from research, observation and practical need.</p>
+            <p class="availability">Research-led digital products shaped from real problems and practical use.</p>
             <p class="hero-statement">
               I design and build digital products, website systems and clarity tools that turn complex ideas into structured, polished and usable experiences.
             </p>
@@ -865,7 +890,7 @@
               My background in interiors, property and practical systems now shapes how I build clarity from the ground up.
             </p>
             <p class="body-copy">
-              I think of a website or product as a place someone enters. It needs atmosphere, orientation, proportion and a reason to keep moving. Each project here is independently conceived, researched, structured, designed and built by me.
+              I think of a website or product as a place someone enters. It needs atmosphere, orientation, proportion and a reason to keep moving. Each project here focuses on turning a practical problem into a clearer, more structured digital experience.
             </p>
           </div>
         </div>
@@ -881,7 +906,7 @@
               <div>
                 <h3>SMAart Insight</h3>
                 <p>
-                  A self-initiated buyer-facing decision layer for real estate listings, designed to help property buyers review costs, assumptions and practical scenarios earlier in the decision process.
+                  A buyer-facing decision layer for real estate listings, designed to help property buyers review costs, assumptions and practical scenarios earlier in the decision process.
                 </p>
                 <div class="project-meta" aria-label="SMAart Insight focus areas">
                   <span>Live product pilot</span>
@@ -902,7 +927,7 @@
               <div>
                 <h3>Advisory Website System</h3>
                 <p>
-                  A self-initiated multilingual template system for consultants, advisors and service professionals, built around one shared service-business structure and explored through two distinct visual directions.
+                  A multilingual template system for consultants, advisors and service professionals, built around one shared service-business structure and explored through two distinct visual directions.
                 </p>
                 <div class="project-meta" aria-label="Advisory Website System focus areas">
                   <span>Multilingual website</span>
@@ -959,7 +984,7 @@
               <div>
                 <h3>Hitlift</h3>
                 <p>
-                  A self-initiated multilingual platform concept exploring SEO, scalable content architecture and future product expansion.
+                  A multilingual platform concept exploring SEO, scalable content architecture and future product expansion.
                 </p>
                 <div class="project-meta" aria-label="Hitlift focus areas">
                   <span>Multilingual content</span>
@@ -978,7 +1003,7 @@
               <div>
                 <h3>HitSnap</h3>
                 <p>
-                  A self-initiated photography portfolio concept exploring mood, visual storytelling and editorial presentation for creative professionals.
+                  A photography portfolio concept exploring mood, visual storytelling and editorial presentation for creative professionals.
                 </p>
                 <div class="project-meta" aria-label="HitSnap focus areas">
                   <span>Photography portfolio</span>
@@ -997,7 +1022,7 @@
               <div>
                 <h3>Luma Atelier</h3>
                 <p>
-                  A self-initiated e-commerce concept exploring calm product presentation, visual hierarchy and simple user journeys.
+                  An e-commerce concept exploring calm product presentation, visual hierarchy and simple user journeys.
                 </p>
                 <div class="project-meta" aria-label="Luma Atelier focus areas">
                   <span>E-commerce concept</span>
@@ -1117,8 +1142,16 @@
     const demoLink = document.querySelector(".demo-link");
     const closeButton = document.getElementById("closeVideo");
     const topbar = document.querySelector(".topbar");
-    const menuToggle = document.querySelector(".menu-toggle");
+    const sectionToggle = document.querySelector(".section-toggle");
+    const currentSection = document.querySelector(".current-section");
     const navLinks = document.querySelectorAll("#mainNav a");
+    const sections = [
+      { id: "home", label: "Home" },
+      { id: "practice", label: "Practice" },
+      { id: "work", label: "Work" },
+      { id: "method", label: "Method" },
+      { id: "contact", label: "Contact" },
+    ];
 
     function openModal(event) {
       event.preventDefault();
@@ -1137,24 +1170,59 @@
     modal.addEventListener("click", (event) => {
       if (event.target === modal) closeModal();
     });
-    menuToggle.addEventListener("click", () => {
+    function closeMenu() {
+      topbar.classList.remove("menu-open");
+      sectionToggle.setAttribute("aria-expanded", "false");
+      sectionToggle.setAttribute("aria-label", "Open section menu");
+    }
+
+    function setCurrentSection(label) {
+      currentSection.textContent = label;
+      navLinks.forEach((link) => {
+        const isCurrent = link.dataset.sectionTitle === label;
+        if (isCurrent) {
+          link.setAttribute("aria-current", "page");
+        } else {
+          link.removeAttribute("aria-current");
+        }
+      });
+    }
+
+    sectionToggle.addEventListener("click", () => {
       const isOpen = topbar.classList.toggle("menu-open");
-      menuToggle.setAttribute("aria-expanded", String(isOpen));
-      menuToggle.setAttribute("aria-label", isOpen ? "Close menu" : "Open menu");
+      sectionToggle.setAttribute("aria-expanded", String(isOpen));
+      sectionToggle.setAttribute("aria-label", isOpen ? "Close section menu" : "Open section menu");
     });
+
     navLinks.forEach((link) => {
       link.addEventListener("click", () => {
-        topbar.classList.remove("menu-open");
-        menuToggle.setAttribute("aria-expanded", "false");
-        menuToggle.setAttribute("aria-label", "Open menu");
+        setCurrentSection(link.dataset.sectionTitle);
+        closeMenu();
       });
     });
+
+    document.addEventListener("click", (event) => {
+      if (!topbar.contains(event.target)) closeMenu();
+    });
+
+    function updateCurrentSection() {
+      const anchorLine = window.scrollY + topbar.offsetHeight + Math.min(window.innerHeight * 0.24, 180);
+      const active = sections.reduce((current, section) => {
+        const element = document.getElementById(section.id);
+        if (!element || element.offsetTop > anchorLine) return current;
+        return section;
+      }, sections[0]);
+      setCurrentSection(active.label);
+    }
+
+    updateCurrentSection();
+    document.addEventListener("scroll", updateCurrentSection, { passive: true });
+    window.addEventListener("resize", updateCurrentSection);
+
     document.addEventListener("keydown", (event) => {
       if (event.key === "Escape" && modal.classList.contains("open")) closeModal();
       if (event.key === "Escape" && topbar.classList.contains("menu-open")) {
-        topbar.classList.remove("menu-open");
-        menuToggle.setAttribute("aria-expanded", "false");
-        menuToggle.setAttribute("aria-label", "Open menu");
+        closeMenu();
       }
     });
 
