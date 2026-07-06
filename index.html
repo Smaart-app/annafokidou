@@ -1,26 +1,42 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Anna Fokidou · Product Builder</title>
+  <title>Anna Fokidou | Independent Digital Products & Spatial Web Design</title>
   <meta
     name="description"
-    content="Anna Fokidou — Product builder focused on workflows, clarity, information structure and decision-support experiences."
+    content="Anna Fokidou designs self-initiated digital products, clarity tools and atmospheric websites with a spatial, cinematic eye."
   />
 
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Anna Fokidou" />
+  <meta property="og:title" content="Anna Fokidou | Independent Digital Products & Spatial Web Design" />
+  <meta property="og:description" content="Anna Fokidou designs self-initiated digital products, clarity tools and atmospheric websites with a spatial, cinematic eye." />
+  <meta property="og:image" content="og-image.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Anna's hummingbird portfolio preview for Anna Fokidou" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Anna Fokidou | Independent Digital Products & Spatial Web Design" />
+  <meta name="twitter:description" content="Anna Fokidou designs self-initiated digital products, clarity tools and atmospheric websites with a spatial, cinematic eye." />
+  <meta name="twitter:image" content="og-image.jpg" />
+  <meta name="twitter:image:alt" content="Anna's hummingbird portfolio preview for Anna Fokidou" />
   <style>
     :root {
-      --bg: #f7f4ef;
-      --surface: #ffffff;
-      --text: #1f2933;
-      --muted: #6b7280;
-      --line: rgba(31, 41, 51, 0.12);
-      --accent: #1f4f46;
-      --accent-soft: #e7eee9;
-      --shadow: 0 18px 45px rgba(31, 41, 51, 0.08);
-      --radius: 28px;
-      --max: 1060px;
+      --ink: #111315;
+      --paper: #f4f0e8;
+      --chalk: #fbf8f1;
+      --stone: #b9b0a2;
+      --mist: #ded8ce;
+      --moss: #34564e;
+      --clay: #b7644d;
+      --gold: #c6a15b;
+      --iris: #d84f8a;
+      --sky: #3aa7c7;
+      --line: rgba(244, 240, 232, 0.18);
+      --dark-line: rgba(17, 19, 21, 0.14);
+      --max: 1440px;
     }
 
     * {
@@ -34,10 +50,26 @@
     }
 
     body {
+      min-height: 100vh;
+      background: var(--ink);
+      color: var(--paper);
       font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      line-height: 1.6;
+      line-height: 1.5;
+      -webkit-user-select: none;
+      user-select: none;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.18;
+      background-image:
+        linear-gradient(rgba(244, 240, 232, 0.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(244, 240, 232, 0.05) 1px, transparent 1px);
+      background-size: 7.5vw 100%, 7.5vw 100%;
+      z-index: 0;
     }
 
     a {
@@ -45,683 +77,1091 @@
       text-decoration: none;
     }
 
-    .page {
-      width: min(100% - 40px, var(--max));
-      margin: 0 auto;
-      padding: 32px 0;
+    img,
+    video {
+      max-width: 100%;
+      display: block;
+      -webkit-user-drag: none;
+      user-select: none;
     }
 
-    header {
-      display: flex;
-      justify-content: space-between;
+    .site {
+      position: relative;
+      z-index: 1;
+    }
+
+    .shell {
+      width: min(100% - 40px, var(--max));
+      margin: 0 auto;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      width: 100%;
+      max-width: none;
+      margin: 0;
+      padding: 0 clamp(26px, 4vw, 64px);
+      min-height: 86px;
+      display: grid;
+      grid-template-columns: minmax(120px, 1fr) auto minmax(42px, 1fr);
       align-items: center;
-      margin-bottom: 72px;
-      font-size: 14px;
-      color: var(--muted);
+      gap: 24px;
+      background: rgba(17, 19, 21, 0.82);
+      backdrop-filter: blur(18px);
+      color: rgba(244, 240, 232, 0.72);
+      font-size: 12px;
+      text-transform: uppercase;
     }
 
     .brand {
-      font-weight: 600;
-      font-size: 20px;
-      color: var(--text);
-      letter-spacing: -0.01em;
-      position: relative;
+      justify-self: start;
+      font-weight: 700;
+      color: var(--paper);
+      white-space: nowrap;
     }
 
-    .brand::after {
-      content: "";
-      display: block;
-      width: 20px;
-      height: 2px;
-      background: var(--accent);
-      margin-top: 6px;
-      opacity: 0.6;
+    .signature {
+      justify-self: center;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--stone);
+      white-space: nowrap;
+    }
+
+    .bird-mark {
+      width: 58px;
+      height: 34px;
+      overflow: visible;
+      filter: drop-shadow(0 0 14px rgba(216, 79, 138, 0.26));
+      animation: hoverMark 4s ease-in-out infinite;
+    }
+
+    .bird-mark path {
+      fill: none;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .bird-wing-a {
+      stroke: var(--sky);
+    }
+
+    .bird-wing-b {
+      stroke: var(--iris);
+    }
+
+    .bird-body {
+      stroke: var(--gold);
+    }
+
+    @keyframes hoverMark {
+      0%,
+      100% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-3px);
+      }
     }
 
     nav {
-      display: flex;
+      grid-column: 1 / -1;
+      grid-row: 2;
+      justify-self: stretch;
+      display: none;
+      align-items: center;
+      justify-content: center;
       gap: 22px;
-      font-size: 13px;
-      opacity: 0.78;
+      flex-wrap: wrap;
+      padding-top: 18px;
+      border-top: 1px solid var(--line);
+      white-space: nowrap;
+    }
+
+    .topbar.menu-open nav {
+      display: flex;
+    }
+
+    nav a,
+    .text-link {
+      color: rgba(244, 240, 232, 0.72);
+      transition: color 180ms ease, opacity 180ms ease;
     }
 
     nav a:hover,
-    .contact-link:hover,
-    .project-link:hover {
-      color: var(--accent);
-      opacity: 1;
+    .text-link:hover {
+      color: var(--paper);
+    }
+
+    .menu-toggle {
+      display: inline-flex;
+      width: 42px;
+      height: 42px;
+      align-items: center;
+      justify-content: center;
+      justify-self: end;
+      border: 1px solid var(--line);
+      border-radius: 50%;
+      background: transparent;
+      color: var(--paper);
+      cursor: pointer;
+    }
+
+    .menu-toggle span,
+    .menu-toggle::before,
+    .menu-toggle::after {
+      content: "";
+      display: block;
+      width: 18px;
+      height: 2px;
+      border-radius: 999px;
+      background: currentColor;
+      transition: transform 180ms ease, opacity 180ms ease;
+    }
+
+    .menu-toggle {
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .topbar.menu-open .menu-toggle::before {
+      transform: translateY(7px) rotate(45deg);
+    }
+
+    .topbar.menu-open .menu-toggle span {
+      opacity: 0;
+    }
+
+    .topbar.menu-open .menu-toggle::after {
+      transform: translateY(-7px) rotate(-45deg);
     }
 
     .hero {
+      min-height: calc(100vh - 86px);
       display: grid;
-      grid-template-columns: 260px 1fr;
-      gap: 56px;
-      align-items: center;
-      padding: 48px;
-      background: var(--surface);
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      margin-bottom: 32px;
-    }
-
-    .photo-wrap {
-      width: 260px;
-      aspect-ratio: 1 / 1.16;
-      border-radius: 34px;
-      overflow: hidden;
-      background: var(--accent-soft);
-    }
-
-    .photo-wrap img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-    }
-
-    .label {
-      display: inline-flex;
-      align-items: center;
-      padding: 8px 14px;
-      border-radius: 999px;
-      background: var(--accent-soft);
-      color: var(--accent);
-      font-size: 13px;
-      font-weight: 700;
-      margin-bottom: 22px;
-    }
-
-    h1 {
-      font-family: Georgia, "Times New Roman", serif;
-      font-size: clamp(42px, 6vw, 72px);
-      line-height: 0.98;
-      letter-spacing: -0.055em;
-      max-width: 760px;
-      margin-bottom: 24px;
-    }
-
-    .lead {
-      font-size: 18px;
-      color: var(--muted);
-      max-width: 690px;
-    }
-
-    .lead-secondary {
-      margin-top: 12px;
-    }
-
-    section {
-      padding: 34px 0;
+      grid-template-columns: minmax(0, 1.08fr) minmax(280px, 0.72fr);
+      align-items: stretch;
+      border-top: 1px solid var(--line);
       border-bottom: 1px solid var(--line);
     }
 
-    section:last-of-type {
-      border-bottom: none;
+    .hero-copy {
+      min-width: 0;
+      min-height: 610px;
+      padding: clamp(28px, 5vw, 70px) clamp(20px, 4vw, 64px) clamp(28px, 5vw, 64px) 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .eyebrow {
+      color: var(--gold);
+      font-size: 12px;
+      font-weight: 800;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      max-width: 1120px;
+      margin-top: 36px;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(58px, 9.2vw, 144px);
+      line-height: 0.86;
+      font-weight: 700;
+    }
+
+    h1 span {
+      display: block;
+    }
+
+    .hero-bottom {
+      display: grid;
+      grid-template-columns: minmax(240px, 0.8fr) minmax(280px, 1.2fr);
+      gap: 28px;
+      align-items: end;
+      margin-top: 56px;
+    }
+
+    .availability {
+      color: var(--stone);
+      font-size: 13px;
+      text-transform: uppercase;
+    }
+
+    .hero-statement {
+      max-width: 660px;
+      color: rgba(244, 240, 232, 0.78);
+      font-size: clamp(18px, 2vw, 28px);
+      line-height: 1.25;
+    }
+
+    .hero-media {
+      position: relative;
+      min-width: 0;
+      min-height: 650px;
+      border-left: 1px solid var(--line);
+      overflow: hidden;
+      background: #201c19;
+    }
+
+    .hero-media::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 40% 18%, rgba(216, 79, 138, 0.22), transparent 30%),
+        radial-gradient(circle at 82% 34%, rgba(58, 167, 199, 0.2), transparent 26%),
+        linear-gradient(180deg, transparent 45%, rgba(17, 19, 21, 0.42));
+      pointer-events: none;
+    }
+
+    .hero-media img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: saturate(0.82) contrast(1.08);
+      opacity: 0.86;
+    }
+
+    .media-caption {
+      position: absolute;
+      left: 22px;
+      right: 22px;
+      bottom: 22px;
+      display: flex;
+      justify-content: space-between;
+      gap: 18px;
+      color: rgba(244, 240, 232, 0.76);
+      font-size: 12px;
+      text-transform: uppercase;
+    }
+
+    .section {
+      padding: clamp(72px, 10vw, 150px) 0;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .section.light {
+      background: var(--paper);
+      color: var(--ink);
+      border-bottom: 0;
     }
 
     .section-grid {
       display: grid;
-      grid-template-columns: 220px 1fr;
-      gap: 48px;
+      grid-template-columns: minmax(180px, 0.35fr) minmax(0, 1fr);
+      gap: clamp(28px, 6vw, 96px);
       align-items: start;
     }
 
-    h2 {
-      font-size: 13px;
+    .section-label {
+      position: sticky;
+      top: 24px;
+      color: var(--gold);
+      font-size: 12px;
+      font-weight: 900;
       text-transform: uppercase;
-      letter-spacing: 0.14em;
-      color: var(--accent);
-      font-weight: 800;
     }
 
-    .text-block {
-      max-width: 780px;
-      display: grid;
-      gap: 16px;
-      font-size: 18px;
-      color: #374151;
+    .light .section-label {
+      color: var(--moss);
     }
-    
-    .portfolio-note {
-      margin-top: 6px;
-      font-size: 0.95rem;
-      color: var(--muted);
+
+    .large-copy {
+      max-width: 1100px;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(34px, 5.5vw, 92px);
+      line-height: 0.98;
     }
-    .thinking-flow {
+
+    .body-copy {
+      max-width: 820px;
+      margin-top: 34px;
+      color: rgba(244, 240, 232, 0.72);
+      font-size: clamp(18px, 1.55vw, 24px);
+    }
+
+    .light .body-copy {
+      color: rgba(17, 19, 21, 0.7);
+    }
+
+    .method-list {
+      margin-top: 44px;
       display: grid;
-      grid-template-columns: repeat(5, 1fr);
+      grid-template-columns: repeat(2, 1fr);
+      border-top: 1px solid var(--line);
+      border-left: 1px solid var(--line);
+    }
+
+    .method-visual-grid {
+      display: grid;
+      gap: clamp(26px, 4vw, 52px);
+    }
+
+    .method-visual {
+      position: relative;
+      min-height: 320px;
+      aspect-ratio: 21 / 8;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      background: #efe8db;
+      isolation: isolate;
+    }
+
+    .method-visual img {
+      width: 100%;
+      height: 100%;
+      min-height: 320px;
+      object-fit: cover;
+      object-position: center;
+      filter: saturate(0.82) contrast(1.04);
+    }
+
+    .method-visual::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(180deg, rgba(17, 19, 21, 0.02), rgba(17, 19, 21, 0.28)),
+        radial-gradient(circle at 68% 26%, rgba(216, 79, 138, 0.16), transparent 28%);
+      pointer-events: none;
+    }
+
+    .method-visual figcaption {
+      position: absolute;
+      left: 18px;
+      right: 18px;
+      bottom: 16px;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 6px 28px;
+      color: rgba(244, 240, 232, 0.78);
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+    }
+
+    .method-copy {
+      max-width: 1040px;
+    }
+
+    .method-item {
+      min-height: 150px;
+      padding: 22px 24px;
+      border-right: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
       gap: 12px;
-      margin-top: 8px;
     }
 
-    .thinking-step {
-      padding: 18px;
-      background: var(--surface);
-      border: 1px solid var(--line);
-      border-radius: 20px;
-      font-weight: 800;
-      color: var(--accent);
-      text-align: center;
-    }
-
-    .projects {
-      display: grid;
-      gap: 16px;
-    }
-
-    .project-card {
-      padding: 26px;
-      background: rgba(255, 255, 255, 0.72);
-      border: 1px solid var(--line);
-      border-radius: 22px;
-    }
-
-    .project-top {
-      display: flex;
-      justify-content: space-between;
-      gap: 20px;
-      align-items: baseline;
-      margin-bottom: 10px;
-    }
-
-    .project-title {
-      font-size: 22px;
-      font-weight: 800;
-      letter-spacing: -0.035em;
-    }
-
-    .project-link {
-      font-size: 14px;
-      color: var(--muted);
-      white-space: nowrap;
-      font-weight: 700;
-    }
-
-    .project-description {
-      color: #4b5563;
-      max-width: 760px;
-      margin-bottom: 12px;
-    }
-
-    .project-note {
-      color: var(--muted);
-      font-size: 15px;
-      max-width: 760px;
-      margin-bottom: 12px;
-    }
-
-    .built-with {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-top: 14px;
-    }
-
-    .built-with span {
-      display: inline-flex;
-      padding: 7px 11px;
-      border-radius: 999px;
-      background: var(--accent-soft);
-      color: var(--accent);
+    .method-number {
+      color: var(--gold);
       font-size: 12px;
       font-weight: 800;
     }
 
-    .work-principles {
+    .method-item h3 {
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 30px;
+      line-height: 1;
+    }
+
+    .method-item p {
+      max-width: 440px;
+      color: rgba(244, 240, 232, 0.62);
+      font-size: 14px;
+      line-height: 1.45;
+    }
+
+    .work-list {
       display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 14px;
+      border-top: 1px solid var(--dark-line);
     }
 
-    .principle {
-      padding: 20px;
-      border-radius: 20px;
-      background: var(--surface);
-      border: 1px solid var(--line);
+    .project {
+      display: grid;
+      grid-template-columns: 90px minmax(0, 1fr) minmax(180px, 0.32fr);
+      gap: clamp(22px, 4vw, 64px);
+      padding: clamp(34px, 6vw, 78px) 0;
+      border-bottom: 1px solid var(--dark-line);
+      align-items: start;
     }
 
-    .principle-title {
+    .project-index {
+      color: var(--clay);
+      font-weight: 900;
+      font-size: 13px;
+    }
+
+    .project h3 {
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(38px, 5.4vw, 86px);
+      line-height: 0.92;
+      margin-bottom: 20px;
+    }
+
+    .project p {
+      max-width: 760px;
+      color: rgba(17, 19, 21, 0.68);
+      font-size: 18px;
+    }
+
+    .project-meta {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 22px;
+    }
+
+    .project-meta span {
+      padding: 7px 10px;
+      border: 1px solid var(--dark-line);
+      border-radius: 999px;
+      color: rgba(17, 19, 21, 0.72);
+      font-size: 12px;
       font-weight: 800;
-      color: var(--text);
-      margin-bottom: 6px;
-      letter-spacing: -0.02em;
     }
 
-    .principle p {
-      color: #4b5563;
-      font-size: 15px;
+    .project-actions {
+      display: grid;
+      gap: 10px;
+      justify-items: start;
+    }
+
+    .project-link,
+    .contact-link {
+      display: inline-flex;
+      align-items: center;
+      min-height: 42px;
+      padding: 10px 14px;
+      border: 1px solid var(--dark-line);
+      border-radius: 999px;
+      color: var(--ink);
+      font-size: 13px;
+      font-weight: 900;
+      text-transform: uppercase;
+      transition: background 180ms ease, color 180ms ease, border-color 180ms ease;
+    }
+
+    .project-link:hover,
+    .contact-link:hover {
+      background: var(--ink);
+      color: var(--paper);
+      border-color: var(--ink);
+    }
+
+    .demo-link {
+      cursor: pointer;
+    }
+
+    .contact-panel {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 38px;
+      align-items: end;
+    }
+
+    .contact-panel h2 {
+      max-width: 900px;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(44px, 8vw, 132px);
+      line-height: 0.9;
     }
 
     .contact-text {
-      font-size: 18px;
-      color: #374151;
-      max-width: 760px;
-      margin-bottom: 24px;
+      max-width: 720px;
+      margin-top: 28px;
+      color: rgba(244, 240, 232, 0.72);
+      font-size: 20px;
     }
 
-    .contact-row {
+    .contact-actions {
       display: flex;
-      gap: 16px;
       flex-wrap: wrap;
-      margin-top: 8px;
+      gap: 12px;
+      justify-content: flex-end;
     }
 
     .contact-link {
-      display: inline-flex;
-      padding: 12px 18px;
-      border: 1px solid var(--line);
-      border-radius: 999px;
-      background: var(--surface);
-      color: var(--text);
-      font-weight: 700;
+      color: var(--paper);
+      border-color: var(--line);
+    }
+
+    .contact-link:hover {
+      background: var(--paper);
+      color: var(--ink);
+      border-color: var(--paper);
     }
 
     footer {
-      padding: 32px 0 8px;
-      color: var(--muted);
-      font-size: 14px;
+      padding: 30px 0 44px;
+      color: rgba(244, 240, 232, 0.55);
+      font-size: 12px;
+      text-transform: uppercase;
     }
 
-    @media (max-width: 900px) {
-      .thinking-flow,
-      .work-principles {
+    .video-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 50;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 28px;
+      background: rgba(17, 19, 21, 0.84);
+    }
+
+    .video-modal.open {
+      display: flex;
+    }
+
+    .video-box {
+      position: relative;
+      width: min(100%, 1080px);
+      background: #000;
+      border: 1px solid rgba(244, 240, 232, 0.22);
+    }
+
+    .video-box video {
+      width: 100%;
+      height: auto;
+    }
+
+    .video-close {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      width: 42px;
+      height: 42px;
+      border: 1px solid rgba(17, 19, 21, 0.16);
+      border-radius: 50%;
+      background: var(--paper);
+      color: var(--ink);
+      font-size: 24px;
+      cursor: pointer;
+      z-index: 2;
+    }
+
+    @media (max-width: 1180px) {
+      .hero,
+      .hero-bottom,
+      .section-grid,
+      .method-visual-grid,
+      .project,
+      .contact-panel {
         grid-template-columns: 1fr;
       }
-    }
 
-    @media (max-width: 820px) {
-      .page {
-        width: min(100% - 28px, var(--max));
-        padding: 22px 0;
+      .topbar {
+        grid-template-columns: minmax(120px, 1fr) auto minmax(42px, 1fr);
       }
 
-      header {
-        align-items: flex-start;
-        gap: 18px;
-        flex-direction: column;
-        margin-bottom: 32px;
+      .hero-copy,
+      .hero-media {
+        min-height: auto;
+      }
+
+      .hero-media {
+        width: 100%;
+        max-width: 100%;
+        align-self: start;
+        justify-self: stretch;
+        border-left: 0;
+        aspect-ratio: 16 / 10;
+      }
+
+      .method-visual {
+        min-height: 260px;
+        aspect-ratio: 4 / 3;
+        background: #050505;
+      }
+
+      .method-visual img {
+        min-height: 260px;
+        object-fit: contain;
+      }
+
+      .method-visual figcaption {
+        grid-template-columns: 1fr;
+      }
+
+      .method-list {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .section-label {
+        position: static;
+      }
+
+      .contact-actions {
+        justify-content: flex-start;
+      }
+    }
+
+    @media (max-width: 620px) {
+      .shell {
+        width: min(100% - 28px, var(--max));
+      }
+
+      .topbar {
+        grid-template-columns: 42px minmax(0, 1fr) 42px;
+        gap: 12px;
+        padding: 16px 14px;
+        min-height: auto;
+      }
+
+      .brand {
+        grid-column: 2;
+        grid-row: 1;
+        justify-self: center;
+      }
+
+      .signature {
+        grid-column: 1 / -1;
+        grid-row: 2;
+        justify-self: center;
+        gap: 8px;
+      }
+
+      .signature span {
+        font-size: 11px;
+      }
+
+      .bird-mark {
+        width: 46px;
+        height: 28px;
+      }
+
+      .menu-toggle {
+        grid-column: 3;
+        grid-row: 1;
       }
 
       nav {
-        gap: 14px;
-        flex-wrap: wrap;
+        grid-column: 1 / -1;
+        grid-row: 3;
+        width: 100%;
+        justify-self: stretch;
+        justify-content: center;
+        gap: 0;
+        padding-top: 10px;
+        border-top: 1px solid var(--line);
       }
 
-      .hero {
+      .topbar.menu-open nav {
+        display: grid;
+      }
+
+      nav a {
+        display: block;
+        padding: 11px 0;
+        text-align: center;
+      }
+
+      h1 {
+        font-size: clamp(58px, 18vw, 96px);
+      }
+
+      .method-visual {
+        aspect-ratio: auto;
+        width: 100%;
+      }
+
+      .method-visual img {
+        height: 100%;
+      }
+
+      .method-list {
         grid-template-columns: 1fr;
-        padding: 28px;
-        gap: 28px;
       }
 
-      .photo-wrap {
-        width: min(100%, 260px);
+      .project-actions {
+        width: 100%;
       }
 
-      .section-grid {
-        grid-template-columns: 1fr;
-        gap: 18px;
-      }
-
-      .project-top {
-        flex-direction: column;
-        gap: 4px;
-      }
-
-      .project-link {
-        white-space: normal;
+      .project-link,
+      .contact-link {
+        width: 100%;
+        justify-content: center;
       }
     }
-  
-    .project-actions{display:flex;gap:18px;align-items:center;white-space:nowrap}
-    .demo-link{cursor:pointer}
-    .video-modal{position:fixed;inset:0;background:rgba(0,0,0,.7);display:none;align-items:center;justify-content:center;padding:24px;z-index:9999}
-    .video-modal.open{display:flex}
-    .video-box{position:relative;max-width:960px;width:100%;background:#000;border-radius:18px;overflow:hidden}
-    .video-box video{display:block;width:100%;height:auto}
-    .video-close{position:absolute;top:10px;right:10px;width:40px;height:40px;border:none;border-radius:50%;background:rgba(255,255,255,.9);font-size:24px;cursor:pointer}
 
-</style>
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        scroll-behavior: auto !important;
+        transition: none !important;
+      }
+    }
+  </style>
 </head>
 
 <body>
-  <div class="page">
-    <header>
+  <div class="site">
+    <header class="topbar shell">
       <a class="brand" href="#">Anna Fokidou</a>
 
-      <nav aria-label="Main navigation">
-        <a href="#why">Why</a>
-        <a href="#thinking">Approach</a>
-        <a href="#work">Projects</a>
-        <a href="#how">How I Work</a>
+      <div class="signature" aria-label="Anna's hummingbird signature">
+        <svg class="bird-mark" viewBox="0 0 92 54" role="img" aria-label="Minimal Anna's hummingbird mark">
+          <path class="bird-wing-a" d="M8 32 C26 7, 48 8, 60 28" />
+          <path class="bird-wing-b" d="M43 26 C58 9, 75 12, 88 20" />
+          <path class="bird-body" d="M47 29 C56 29, 62 34, 68 43" />
+          <path class="bird-body" d="M39 31 L22 44" />
+        </svg>
+        <span>Anna's hummingbird</span>
+      </div>
+
+      <button class="menu-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mainNav">
+        <span></span>
+      </button>
+
+      <nav id="mainNav" aria-label="Main navigation">
+        <a href="#">Home</a>
+        <a href="#practice">Practice</a>
+        <a href="#work">Work</a>
+        <a href="#method">Method</a>
         <a href="#contact">Contact</a>
       </nav>
     </header>
 
     <main>
-      <section class="hero" aria-label="Introduction">
-        <div class="photo-wrap">
-          <img src="./anna.png" alt="Anna Fokidou" />
+      <section class="hero shell" aria-label="Introduction">
+        <div class="hero-copy">
+          <div>
+            <p class="eyebrow">Independent digital products / clarity tools / spatial web design</p>
+            <h1><span>Websites</span><span>shaped like</span><span>spaces.</span></h1>
+          </div>
+
+          <div class="hero-bottom">
+            <p class="availability">Self-initiated work, built from research, observation and practical need.</p>
+            <p class="hero-statement">
+              I design and build digital products, website systems and clarity tools that turn complex ideas into structured, polished and usable experiences.
+            </p>
+          </div>
         </div>
 
-        <div>
-          <div class="label">Product Builder · Workflows &amp; Decision Support</div>
-          <h1>I build clarity for complex decisions.</h1>
-          <p class="lead">
-            I turn scattered information, unclear processes and real-world uncertainty into structured digital products, workflows and decision-support experiences.
-          </p>
-          <p class="lead lead-secondary">
-            My work sits between product thinking, operations, documentation, information structure and practical user guidance.
-          </p>
-        </div>
+        <figure class="hero-media">
+          <img src="./anna.png" alt="Portrait of Anna Fokidou" />
+          <figcaption class="media-caption">
+            <span>Anna Fokidou</span>
+            <span>Digital spaces</span>
+          </figcaption>
+        </figure>
       </section>
 
-      <section id="why">
-        <div class="section-grid">
-          <h2>Why I Build Things</h2>
-
-          <div class="text-block">
-            <p>
-              My work has always revolved around the same problem: people need clearer information before they can make good decisions.
+      <section class="section" id="practice">
+        <div class="shell section-grid">
+          <p class="section-label">Practice</p>
+          <div>
+            <p class="large-copy">
+              My background in interiors, property and practical systems now shapes how I build clarity from the ground up.
             </p>
-            <p>
-              I started from spaces, property, administration and technical documentation. Over time, I saw the same pattern in different environments: important decisions often depend on information that is scattered, incomplete, difficult to compare or shared too late.
-            </p>
-            <p>
-              This is what led me to build digital products. Not as abstract design exercises, but as practical ways to organise complexity, guide users and make decision-making feel less confusing.
+            <p class="body-copy">
+              I think of a website or product as a place someone enters. It needs atmosphere, orientation, proportion and a reason to keep moving. Each project here is independently conceived, researched, structured, designed and built by me.
             </p>
           </div>
         </div>
       </section>
 
-      <section id="thinking">
-        <div class="section-grid">
-          <h2>How I Think</h2>
+      <section class="section light" id="work">
+        <div class="shell section-grid">
+          <p class="section-label">Independent work</p>
 
-          <div class="text-block">
-            <p>
-              I approach problems by looking first at the information behind them: what people need to know, what is missing, what comes too late and what needs to become easier to compare.
-            </p>
-
-            <div class="thinking-flow" aria-label="Thinking process">
-              <div class="thinking-step">Observe</div>
-              <div class="thinking-step">Organise</div>
-              <div class="thinking-step">Structure</div>
-              <div class="thinking-step">Clarify</div>
-              <div class="thinking-step">Support Decisions</div>
-            </div>
-
-            <p>
-              This approach connects my background in real estate, administration and documentation with the digital products I build today.
-            </p>
-            <p class="portfolio-note">
-              Every project below was independently conceived, designed and built by me from the ground up.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      <section id="work">
-        <div class="section-grid">
-          <h2>Selected Projects</h2>
-
-          <div class="projects">
-            <article class="project-card">
-              <div class="project-top">
-                <h3 class="project-title">SMAart Insight</h3>
-                <div class="project-actions">
-                  <a class="project-link demo-link" href="#">Watch 1:45 demo →</a>
-                  <a class="project-link" href="https://smaart-app.com/pilot/" target="_blank" rel="noopener noreferrer">
-                    Visit SMAart Insight →
-                  </a>
+          <div class="work-list">
+            <article class="project">
+              <p class="project-index">01</p>
+              <div>
+                <h3>SMAart Insight</h3>
+                <p>
+                  A self-initiated buyer-facing decision layer for real estate listings, designed to help property buyers review costs, assumptions and practical scenarios earlier in the decision process.
+                </p>
+                <div class="project-meta" aria-label="SMAart Insight focus areas">
+                  <span>Live product pilot</span>
+                  <span>Buyer decision layer</span>
+                  <span>Property context</span>
+                  <span>Cost clarity</span>
+                  <span>Modular system</span>
                 </div>
               </div>
-
-              <p class="project-description">
-                A decision-support product focused on helping users understand property-related costs, practical options and important questions before the buying process moves too far ahead.
-              </p>
-
-              <div class="built-with" aria-label="SMAart Insight features">
-                <span>Decision support</span>
-                <span>Workflow logic</span>
-                <span>Property context</span>
-                <span>User guidance</span>
-                <span>Cost clarity</span>
+              <div class="project-actions">
+                <a class="project-link demo-link" href="#">Watch demo</a>
+                <a class="project-link" href="https://smaart-app.com/pilot/" target="_blank" rel="noopener noreferrer">Visit site</a>
               </div>
             </article>
 
-            <article class="project-card">
-              <div class="project-top">
-                <h3 class="project-title">Clarity Advisory · Puzzle Strategy Template</h3>
-                <a class="project-link" href="https://clarity-advisory-demo.netlify.app" target="_blank" rel="noopener noreferrer">
-                  Visit Template →
-                </a>
+            <article class="project">
+              <p class="project-index">02</p>
+              <div>
+                <h3>Advisory Website System</h3>
+                <p>
+                  A self-initiated multilingual template system for consultants, advisors and service professionals, built around one shared service-business structure and explored through two distinct visual directions.
+                </p>
+                <div class="project-meta" aria-label="Advisory Website System focus areas">
+                  <span>Multilingual website</span>
+                  <span>Shared UX structure</span>
+                  <span>Template family</span>
+                  <span>Advisory positioning</span>
+                </div>
               </div>
-
-              <p class="project-description">
-                A multilingual service-business website template for consultants, advisors and coaches, built around a puzzle-led strategy concept. The design uses pieces, connection and transformation as a clear visual metaphor for solving complexity and helping clients move toward a confident next step.
-              </p>
-
-              <p class="project-note">
-                Best positioned for professionals who want their website to feel more expressive, conceptual and transformation-focused.
-              </p>
-
-              <div class="built-with" aria-label="Clarity Advisory Puzzle Strategy Template features">
-                <span>Multilingual website</span>
-                <span>Puzzle metaphor</span>
-                <span>Articles</span>
-                <span>Services structure</span>
-                <span>Transformation concept</span>
-                <span>Reusable template</span>
+              <div class="project-actions">
+                <a class="project-link" href="https://clarity-advisory-demo.netlify.app" target="_blank" rel="noopener noreferrer">Visit site</a>
               </div>
             </article>
 
-            <article class="project-card">
-              <div class="project-top">
-                <h3 class="project-title">Clarity Advisory · Network Advisory Template</h3>
-                <a class="project-link" href="https://clarityadvisory-site.netlify.app/en" target="_blank" rel="noopener noreferrer">
-                  Visit Template →
-                </a>
+            <article class="project">
+              <p class="project-index">03</p>
+              <div>
+                <h3>Clarity + Network</h3>
+                <p>
+                  Two variations on the same advisory foundation: Clarity Advisory uses a puzzle-led metaphor for transformation, while Network Advisory uses a calmer network language for method, credibility and structured decision-making.
+                </p>
+                <div class="project-meta" aria-label="Clarity and Network Advisory focus areas">
+                  <span>Puzzle metaphor</span>
+                  <span>Network visual system</span>
+                  <span>Trust-building UX</span>
+                  <span>Visual direction variants</span>
+                </div>
               </div>
-
-              <p class="project-description">
-                A second variation in the same premium template family, with a calmer advisory feel and a softer network/clarity system as its main visual language. It is designed for consultants, strategists and business professionals who want to communicate method, credibility and structured decision-making.
-              </p>
-
-              <p class="project-note">
-                Shows how the same market, page structure and technical base can be repositioned through visual direction, tone and niche emphasis.
-              </p>
-
-              <div class="built-with" aria-label="Clarity Advisory Network Advisory Template features">
-                <span>Multilingual website</span>
-                <span>Network visual system</span>
-                <span>Advisory positioning</span>
-                <span>Services structure</span>
-                <span>Trust-building UX</span>
-                <span>Template variation</span>
+              <div class="project-actions">
+                <a class="project-link" href="https://clarityadvisory-site.netlify.app/en" target="_blank" rel="noopener noreferrer">Visit site</a>
               </div>
             </article>
 
-            <article class="project-card">
-              <div class="project-top">
-                <h3 class="project-title">SMAart View</h3>
-                <a class="project-link" href="https://view.smaart-app.com/" target="_blank" rel="noopener noreferrer">
-                  Visit SMAart View →
-                </a>
+            <article class="project">
+              <p class="project-index">04</p>
+              <div>
+                <h3>SMAart View</h3>
+                <p>
+                  A connected SMAart demo exploring how a practical clarity layer can sit inside a property listing, making key information more visible, structured and analytics-ready.
+                </p>
+                <div class="project-meta" aria-label="SMAart View focus areas">
+                  <span>Listing-side add-on</span>
+                  <span>Context structure</span>
+                  <span>Visual hierarchy</span>
+                  <span>Buyer context</span>
+                </div>
               </div>
-
-              <p class="project-description">
-                A visual product concept exploring how property information can be presented with more context, clearer structure and less cognitive friction.
-              </p>
-
-              <div class="built-with" aria-label="SMAart View features">
-                <span>Property presentation</span>
-                <span>Context structure</span>
-                <span>Visual hierarchy</span>
-                <span>Comparison thinking</span>
-              </div>
-            </article>
-
-            <article class="project-card">
-              <div class="project-top">
-                <h3 class="project-title">Hitlift</h3>
-                <a class="project-link" href="https://hitlift.app/en" target="_blank" rel="noopener noreferrer">
-                  Visit Hitlift →
-                </a>
-              </div>
-
-              <p class="project-description">
-                A multilingual content platform exploring how clarity, structure and context influence understanding and decision-making.
-              </p>
-
-              <div class="built-with" aria-label="Hitlift features">
-                <span>Multilingual content</span>
-                <span>Articles</span>
-                <span>Image support</span>
-                <span>Content structure</span>
-                <span>Contact flow</span>
+              <div class="project-actions">
+                <a class="project-link" href="https://view.smaart-app.com/" target="_blank" rel="noopener noreferrer">Visit site</a>
               </div>
             </article>
 
-            <article class="project-card">
-              <div class="project-top">
-                <h3 class="project-title">HitSnap</h3>
-                <a class="project-link" href="https://hitsnap.netlify.app/en" target="_blank" rel="noopener noreferrer">
-                  Visit HitSnap →
-                </a>
+            <article class="project">
+              <p class="project-index">05</p>
+              <div>
+                <h3>Hitlift</h3>
+                <p>
+                  A self-initiated multilingual platform concept exploring SEO, scalable content architecture and future product expansion.
+                </p>
+                <div class="project-meta" aria-label="Hitlift focus areas">
+                  <span>Multilingual content</span>
+                  <span>SEO architecture</span>
+                  <span>Content platform</span>
+                  <span>Product expansion</span>
+                </div>
               </div>
-
-              <p class="project-description">
-                A multilingual visual content platform focused on storytelling, image-led presentation and information structure.
-              </p>
-
-              <div class="built-with" aria-label="HitSnap features">
-                <span>Multilingual support</span>
-                <span>Gallery</span>
-                <span>Articles</span>
-                <span>Visual storytelling</span>
-                <span>Contact form</span>
+              <div class="project-actions">
+                <a class="project-link" href="https://hitlift.app/en" target="_blank" rel="noopener noreferrer">Visit site</a>
               </div>
             </article>
 
-            <article class="project-card">
-              <div class="project-top">
-                <h3 class="project-title">Luma Atelier</h3>
-                <a class="project-link" href="https://luma-atelier.netlify.app" target="_blank" rel="noopener noreferrer">
-                  Visit Luma Atelier →
-                </a>
+            <article class="project">
+              <p class="project-index">06</p>
+              <div>
+                <h3>HitSnap</h3>
+                <p>
+                  A self-initiated photography portfolio concept exploring mood, visual storytelling and editorial presentation for creative professionals.
+                </p>
+                <div class="project-meta" aria-label="HitSnap focus areas">
+                  <span>Photography portfolio</span>
+                  <span>Visual storytelling</span>
+                  <span>Editorial mood</span>
+                  <span>Creative presentation</span>
+                </div>
               </div>
+              <div class="project-actions">
+                <a class="project-link" href="https://hitsnap.netlify.app/en" target="_blank" rel="noopener noreferrer">Visit site</a>
+              </div>
+            </article>
 
-              <p class="project-description">
-                An e-commerce concept exploring product presentation, visual hierarchy and simple user journeys.
-              </p>
-
-              <div class="built-with" aria-label="Luma Atelier features">
-                <span>Product presentation</span>
-                <span>User journeys</span>
-                <span>Visual hierarchy</span>
-                <span>Navigation</span>
-                <span>E-commerce structure</span>
+            <article class="project">
+              <p class="project-index">07</p>
+              <div>
+                <h3>Luma Atelier</h3>
+                <p>
+                  A self-initiated e-commerce concept exploring calm product presentation, visual hierarchy and simple user journeys.
+                </p>
+                <div class="project-meta" aria-label="Luma Atelier focus areas">
+                  <span>E-commerce concept</span>
+                  <span>Product presentation</span>
+                  <span>User journeys</span>
+                  <span>Quiet elegance</span>
+                </div>
+              </div>
+              <div class="project-actions">
+                <a class="project-link" href="https://luma-atelier.netlify.app" target="_blank" rel="noopener noreferrer">Visit site</a>
               </div>
             </article>
           </div>
         </div>
       </section>
 
-      <section id="how">
-        <div class="section-grid">
-          <h2>How I Work</h2>
-
-          <div class="work-principles">
-            <div class="principle">
-              <div class="principle-title">Documentation first</div>
-              <p>I use writing to clarify thinking, reduce ambiguity and make decisions easier to follow.</p>
-            </div>
-
-            <div class="principle">
-              <div class="principle-title">Structure before execution</div>
-              <p>I prefer to understand the logic, flow and dependencies before turning an idea into an interface or process.</p>
-            </div>
-
-            <div class="principle">
-              <div class="principle-title">Calm problem solving</div>
-              <p>I work best with complex information, time to think and a clear path toward a practical solution.</p>
-            </div>
-
-            <div class="principle">
-              <div class="principle-title">Product and operations together</div>
-              <p>I connect user needs, workflow logic, content, tools and process improvement into one coherent experience.</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section id="contact">
-        <div class="section-grid">
-          <h2>Contact</h2>
-
+      <section class="section" id="method">
+        <div class="shell section-grid">
+          <p class="section-label">Method</p>
           <div>
-            <p class="contact-text">
-              I am interested in product operations, workflow, documentation, internal tools and decision-support roles where the work involves making complex information clearer and more useful.
-            </p>
+            <div class="method-visual-grid">
+              <div class="method-copy">
+                <p class="large-copy">
+                  I build from atmosphere and structure at the same time.
+                </p>
+                <p class="body-copy">
+                  A site or product has to feel memorable, but it also has to orient people. I look for the path through the information first, then shape the visual language around it.
+                </p>
+              </div>
 
-            <div class="contact-row">
-              <a
-                class="contact-link"
-                href="https://mail.google.com/mail/?view=cm&amp;fs=1&amp;to=anna.fokidou@gmail.com"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Email
-              </a>
-
-              <a
-                class="contact-link"
-                href="https://www.linkedin.com/in/annafokidou"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                LinkedIn
-              </a>
-
-              <a
-                class="contact-link"
-                href="https://smaart-app.com/pilot/"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                SMAart Insight
-              </a>
+              <figure class="method-visual">
+                <img src="./hummingbird-wide.jpg" alt="Hummingbird hovering in front of a flower against a dark background" draggable="false" />
+                <figcaption>
+                  <span>Motion</span>
+                  <span>Precision</span>
+                  <span>Light</span>
+                  <span>Orientation</span>
+                </figcaption>
+              </figure>
             </div>
+
+            <div class="method-list" aria-label="Working method">
+              <div class="method-item">
+                <span class="method-number">01</span>
+                <h3>Observe</h3>
+                <p>Look at the material, context and friction before deciding what the product or site should become.</p>
+              </div>
+              <div class="method-item">
+                <span class="method-number">02</span>
+                <h3>Structure</h3>
+                <p>Organise the information, hierarchy and path so people know where they are going.</p>
+              </div>
+              <div class="method-item">
+                <span class="method-number">03</span>
+                <h3>Atmosphere</h3>
+                <p>Shape the visual rhythm, mood and sense of entry around the structure.</p>
+              </div>
+              <div class="method-item">
+                <span class="method-number">04</span>
+                <h3>Release</h3>
+                <p>Refine, test and make the experience clear enough to be used and remembered.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="contact">
+        <div class="shell contact-panel">
+          <div>
+            <p class="section-label">Contact</p>
+            <h2>Let us build a place people remember.</h2>
+            <p class="contact-text">
+              I am interested in web presence, portfolio, product and property-related projects where clarity, structure and atmosphere need to work together.
+            </p>
+          </div>
+
+          <div class="contact-actions">
+            <a
+              class="contact-link"
+              href="https://mail.google.com/mail/?view=cm&amp;fs=1&amp;to=anna.fokidou@gmail.com"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Email
+            </a>
+            <a
+              class="contact-link"
+              href="https://www.linkedin.com/in/annafokidou"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              LinkedIn
+            </a>
           </div>
         </div>
       </section>
     </main>
 
-    <footer>
-      © 2026 Anna Fokidou. All rights reserved.
+    <footer class="shell">
+      <span>&copy; 2026 Anna Fokidou. All rights reserved.</span>
     </footer>
   </div>
 
-<div class="video-modal" id="videoModal">
-  <div class="video-box">
-    <button class="video-close" id="closeVideo">&times;</button>
-    <video id="demoVideo" controls preload="metadata">
-      <source src="0701.mp4" type="video/mp4">
-    </video>
+  <div class="video-modal" id="videoModal">
+    <div class="video-box">
+      <button class="video-close" id="closeVideo" type="button" aria-label="Close video">&times;</button>
+      <video id="demoVideo" controls preload="metadata">
+        <source src="0701.mp4" type="video/mp4" />
+      </video>
+    </div>
   </div>
-</div>
-<script>
-const modal=document.getElementById('videoModal');
-const video=document.getElementById('demoVideo');
-document.querySelector('.demo-link').addEventListener('click',e=>{
- e.preventDefault(); modal.classList.add('open'); video.play();
-});
-function closeModal(){video.pause();video.currentTime=0;modal.classList.remove('open');}
-document.getElementById('closeVideo').onclick=closeModal;
-modal.addEventListener('click',e=>{if(e.target===modal)closeModal();});
-document.addEventListener('keydown',e=>{if(e.key==='Escape'&&modal.classList.contains('open'))closeModal();});
-</script>
 
+  <script>
+    const modal = document.getElementById("videoModal");
+    const video = document.getElementById("demoVideo");
+    const demoLink = document.querySelector(".demo-link");
+    const closeButton = document.getElementById("closeVideo");
+    const topbar = document.querySelector(".topbar");
+    const menuToggle = document.querySelector(".menu-toggle");
+    const navLinks = document.querySelectorAll("#mainNav a");
+
+    function openModal(event) {
+      event.preventDefault();
+      modal.classList.add("open");
+      video.play();
+    }
+
+    function closeModal() {
+      video.pause();
+      video.currentTime = 0;
+      modal.classList.remove("open");
+    }
+
+    demoLink.addEventListener("click", openModal);
+    closeButton.addEventListener("click", closeModal);
+    modal.addEventListener("click", (event) => {
+      if (event.target === modal) closeModal();
+    });
+    menuToggle.addEventListener("click", () => {
+      const isOpen = topbar.classList.toggle("menu-open");
+      menuToggle.setAttribute("aria-expanded", String(isOpen));
+      menuToggle.setAttribute("aria-label", isOpen ? "Close menu" : "Open menu");
+    });
+    navLinks.forEach((link) => {
+      link.addEventListener("click", () => {
+        topbar.classList.remove("menu-open");
+        menuToggle.setAttribute("aria-expanded", "false");
+        menuToggle.setAttribute("aria-label", "Open menu");
+      });
+    });
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && modal.classList.contains("open")) closeModal();
+      if (event.key === "Escape" && topbar.classList.contains("menu-open")) {
+        topbar.classList.remove("menu-open");
+        menuToggle.setAttribute("aria-expanded", "false");
+        menuToggle.setAttribute("aria-label", "Open menu");
+      }
+    });
+
+    document.addEventListener("copy", (event) => event.preventDefault());
+    document.addEventListener("cut", (event) => event.preventDefault());
+    document.addEventListener("contextmenu", (event) => event.preventDefault());
+    document.addEventListener("dragstart", (event) => event.preventDefault());
+  </script>
 </body>
 </html>
