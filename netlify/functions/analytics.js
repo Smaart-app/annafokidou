@@ -1,4 +1,3 @@
-const { getStore } = require("@netlify/blobs");
 const { randomUUID } = require("node:crypto");
 
 const STORE_NAME = "quiet-portfolio-analytics";
@@ -109,6 +108,7 @@ function createAnalyticsStore() {
 }
 
 function getAnalyticsStore() {
+  const { getStore } = require("@netlify/blobs");
   const siteID = process.env.NETLIFY_SITE_ID || process.env.SITE_ID || "";
   const token = process.env.NETLIFY_BLOBS_TOKEN || process.env.NETLIFY_AUTH_TOKEN || "";
 
