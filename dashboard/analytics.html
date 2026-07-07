@@ -240,6 +240,14 @@
         <div id="utmSources"></div>
       </div>
       <div class="panel">
+        <h2>Countries</h2>
+        <div id="countries"></div>
+      </div>
+      <div class="panel">
+        <h2>Regions</h2>
+        <div id="regions"></div>
+      </div>
+      <div class="panel">
         <h2>Contact Clicks</h2>
         <div id="contactClicks"></div>
       </div>
@@ -311,6 +319,8 @@
 
       bars("referrers", data.referrers);
       bars("utmSources", data.utmSources);
+      bars("countries", data.countries || []);
+      bars("regions", data.regions || []);
       bars("contactClicks", data.contactClicks);
       bars("projectClicks", data.projectClicks);
       bars("projectOpens", data.projectOpens);
@@ -358,6 +368,7 @@
               <th>Time</th>
               <th>Event</th>
               <th>Detail</th>
+              <th>Location</th>
               <th>Referrer</th>
             </tr>
           </thead>
@@ -365,11 +376,15 @@
             ${items
               .map((item) => {
                 const detail = item.details.projectTitle || item.details.destination || item.details.label || item.details.depth || "";
+                const country = item.geo?.country || item.country || "";
+                const region = item.geo?.region || item.region || "";
+                const location = region ? `${country || "Unknown"} / ${region}` : country || "Unknown";
                 return `
                   <tr>
                     <td>${escapeHtml(new Date(item.occurredAt).toLocaleString())}</td>
                     <td>${escapeHtml(item.eventType)}</td>
                     <td>${escapeHtml(String(detail))}</td>
+                    <td>${escapeHtml(location)}</td>
                     <td>${escapeHtml(item.referrer || "Direct")}</td>
                   </tr>
                 `;

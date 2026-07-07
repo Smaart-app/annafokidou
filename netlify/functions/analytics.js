@@ -12,13 +12,13 @@ const EVENT_TYPES = new Set([
   "time_on_page",
 ]);
 
-exports.handler = async function handler(event) {
+exports.handler = async function handler(event, context) {
   if (event.httpMethod === "OPTIONS") {
     return respond(204, "");
   }
 
   if (event.httpMethod === "POST") {
-    return saveEvent(event);
+    return saveEvent(event, context);
   }
 
   if (event.httpMethod === "GET") {
@@ -28,7 +28,7 @@ exports.handler = async function handler(event) {
   return respond(405, { error: "Method not allowed" });
 };
 
-async function saveEvent(event) {
+async function saveEvent(event, context) {
   if (!event.body || Buffer.byteLength(event.body, "utf8") > MAX_BODY_BYTES) {
     return respond(413, { error: "Invalid body" });
   }
@@ -45,8 +45,7 @@ async function saveEvent(event) {
   }
 
   const now = new Date();
-  console.log("HEADERS:", event.headers);
-  const clean = sanitizeEvent(input, event, now);
+  const clean = sanitizeEvent(input, event, now, context);
   const store = getAnalyticsStore();
   const day = now.toISOString().slice(0, 10);
   const key = `events/${day}/${clean.id}.json`;
@@ -95,9 +94,10 @@ function getAnalyticsStore() {
   return getStore(STORE_NAME);
 }
 
-function sanitizeEvent(input, requestEvent, now) {
+function sanitizeEvent(input, requestEvent, now, context) {
   const page = input.page || {};
   const details = input.details || {};
+  const geo = getGeo(requestEvent, context);
 
   return {
     id: randomUUID(),
@@ -128,7 +128,9 @@ function sanitizeEvent(input, requestEvent, now) {
       totalSeconds: clampNumber(details.totalSeconds, 0, 86400, 0),
       scrollDepth: clampNumber(details.scrollDepth, 0, 100, 0),
     },
-    country: cleanString(requestEvent.headers["x-country"], 2),
+    geo,
+    country: geo.countryCode,
+    region: geo.region,
   };
 }
 
@@ -156,6 +158,8 @@ function summarize(events, days) {
     },
     referrers: topCounts(pageViews.map((item) => item.referrer || "Direct")),
     utmSources: topCounts(pageViews.map((item) => item.utm.source || "None")),
+    countries: topCounts(pageViews.map((item) => getEventCountry(item))),
+    regions: topCounts(pageViews.map((item) => getEventRegion(item))),
     contactClicks: topCounts(contactClicks.map((item) => item.details.destination || item.details.label)),
     projectClicks: topCounts(projectClicks.map((item) => item.details.projectTitle || "Unknown project")),
     projectOpens: topCounts(projectOpens.map((item) => item.details.projectTitle || "Unknown project")),
@@ -165,6 +169,88 @@ function summarize(events, days) {
       .sort((a, b) => new Date(b.occurredAt) - new Date(a.occurredAt))
       .slice(0, 50),
   };
+}
+
+function getEventCountry(item) {
+  return item.geo?.country || item.geo?.countryCode || item.country || "Unknown";
+}
+
+function getEventRegion(item) {
+  const country = item.geo?.country || item.geo?.countryCode || item.country || "";
+  const region = item.geo?.region || item.region || "";
+
+  if (country && region) return `${country} / ${region}`;
+  return region || country || "Unknown";
+}
+
+function getGeo(event, context) {
+  const headers = event.headers || {};
+  const netlifyGeo = parseGeoHeader(getHeader(headers, "x-nf-geo"));
+  const contextGeo = context?.geo || event.geo || {};
+  const contextCountry = contextGeo.country || {};
+  const contextRegion = contextGeo.subdivision || contextGeo.region || {};
+
+  const countryCode = cleanString(
+    netlifyGeo.countryCode ||
+      contextCountry.code ||
+      contextGeo.countryCode ||
+      getHeader(headers, "x-country") ||
+      getHeader(headers, "x-nf-country") ||
+      getHeader(headers, "x-vercel-ip-country") ||
+      getHeader(headers, "cf-ipcountry") ||
+      getHeader(headers, "cloudfront-viewer-country") ||
+      getHeader(headers, "x-appengine-country"),
+    12
+  );
+
+  const country = cleanString(
+    netlifyGeo.country ||
+      contextCountry.name ||
+      contextGeo.countryName ||
+      countryCode,
+    80
+  );
+
+  const region = cleanString(
+    netlifyGeo.region ||
+      contextRegion.name ||
+      contextRegion.code ||
+      contextGeo.regionName ||
+      contextGeo.regionCode ||
+      getHeader(headers, "x-region") ||
+      getHeader(headers, "x-nf-region") ||
+      getHeader(headers, "x-vercel-ip-country-region") ||
+      getHeader(headers, "x-appengine-region"),
+    80
+  );
+
+  return {
+    countryCode,
+    country,
+    region,
+  };
+}
+
+function parseGeoHeader(value) {
+  if (!value) return {};
+
+  try {
+    const geo = JSON.parse(value);
+    const country = geo.country || {};
+    const subdivision = geo.subdivision || geo.region || {};
+
+    return {
+      countryCode: country.code || geo.countryCode || geo.country_code || "",
+      country: country.name || geo.countryName || geo.country || "",
+      region: subdivision.name || subdivision.code || geo.regionName || geo.region || "",
+    };
+  } catch (error) {
+    return {};
+  }
+}
+
+function getHeader(headers, name) {
+  return headers[name] || headers[name.toLowerCase()] || headers[name.toUpperCase()] || "";
 }
 
 function averageLatestBySession(events) {

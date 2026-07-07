@@ -4,13 +4,14 @@
 
 - Page views
 - Referrer domain and UTM fields
+- Country and region when available from Netlify geo data
 - Email, LinkedIn and CV clicks
 - Project link clicks
 - Project opens when a project card becomes visible
 - Scroll depth at 25%, 50%, 75%, 90% and 100%
 - Approximate time on page via heartbeat and page-hide events
 
-The browser script does not use cookies. It creates an anonymous per-tab session id in `sessionStorage` and does not intentionally collect names, emails or IP addresses.
+The browser script does not use cookies. It creates an anonymous per-tab session id in `sessionStorage` and does not intentionally collect names, emails or IP addresses. Country and region are collected only when Netlify makes geo data available to the function.
 
 ## Files
 

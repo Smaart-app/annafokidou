@@ -16,6 +16,7 @@ The analytics setup tracks:
 
 - Page views
 - Referrer domain and UTM fields
+- Country and region when Netlify provides geo data
 - Email, LinkedIn and CV clicks
 - Project opens
 - Project clicks
@@ -76,7 +77,7 @@ For local dashboard testing, set `ANALYTICS_DASHBOARD_TOKEN` before running the 
 
 ## Privacy Note
 
-This is a simple portfolio analytics tool, not a full analytics platform. It is designed to collect only basic interaction signals and avoid intentionally collecting personal information.
+This is a simple portfolio analytics tool, not a full analytics platform. It is designed to collect only basic interaction signals and avoid intentionally collecting personal information. Country and region are stored only when Netlify provides them to the serverless function.
 
 Anyone with both the dashboard URL and the private token can view the dashboard, so keep the token private.
 
