@@ -45,6 +45,7 @@ async function saveEvent(event) {
   }
 
   const now = new Date();
+  console.log("HEADERS:", event.headers);
   const clean = sanitizeEvent(input, event, now);
   const store = getAnalyticsStore();
   const day = now.toISOString().slice(0, 10);
