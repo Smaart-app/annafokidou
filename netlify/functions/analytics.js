@@ -153,16 +153,16 @@ function summarize(events, days) {
       contactClicks: contactClicks.length,
       projectClicks: projectClicks.length,
       projectOpens: projectOpens.length,
-      averageScrollDepth: average(scrollEvents.map((item) => item.details.depth)),
+      averageScrollDepth: average(scrollEvents.map((item) => eventDetails(item).depth)),
       averageTimeOnPageSeconds: averageLatestBySession(timeEvents),
     },
     referrers: topCounts(pageViews.map((item) => item.referrer || "Direct")),
-    utmSources: topCounts(pageViews.map((item) => item.utm.source || "None")),
+    utmSources: topCounts(pageViews.map((item) => item.utm?.source || "None")),
     countries: topCounts(pageViews.map((item) => getEventCountry(item))),
     regions: topCounts(pageViews.map((item) => getEventRegion(item))),
-    contactClicks: topCounts(contactClicks.map((item) => item.details.destination || item.details.label)),
-    projectClicks: topCounts(projectClicks.map((item) => item.details.projectTitle || "Unknown project")),
-    projectOpens: topCounts(projectOpens.map((item) => item.details.projectTitle || "Unknown project")),
+    contactClicks: topCounts(contactClicks.map((item) => eventDetails(item).destination || eventDetails(item).label)),
+    projectClicks: topCounts(projectClicks.map((item) => eventDetails(item).projectTitle || "Unknown project")),
+    projectOpens: topCounts(projectOpens.map((item) => eventDetails(item).projectTitle || "Unknown project")),
     daily: dailyCounts(events),
     recent: events
       .slice()
@@ -181,6 +181,10 @@ function getEventRegion(item) {
 
   if (country && region) return `${country} / ${region}`;
   return region;
+}
+
+function eventDetails(item) {
+  return item && item.details && typeof item.details === "object" ? item.details : {};
 }
 
 function getGeo(event, context) {
@@ -259,8 +263,9 @@ function averageLatestBySession(events) {
   events.forEach((item) => {
     const key = item.sessionId || item.id;
     const current = latest.get(key);
-    if (!current || item.details.totalSeconds > current) {
-      latest.set(key, item.details.totalSeconds);
+    const totalSeconds = eventDetails(item).totalSeconds || 0;
+    if (!current || totalSeconds > current) {
+      latest.set(key, totalSeconds);
     }
   });
 
