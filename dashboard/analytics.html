@@ -375,7 +375,7 @@
           <tbody>
             ${items
               .map((item) => {
-                const detail = item.details.projectTitle || item.details.destination || item.details.label || item.details.depth || "";
+                const detail = eventDetail(item);
                 const country = item.geo?.country || item.country || "";
                 const region = item.geo?.region || item.region || "";
                 const location = region ? `${country || "Unknown"} / ${region}` : country || "Unknown";
@@ -393,6 +393,42 @@
           </tbody>
         </table>
       `;
+    }
+
+    function eventDetail(item) {
+      const details = item.details || {};
+
+      if (item.eventType === "time_on_page") {
+        return [
+          `time ${formatSeconds(details.totalSeconds || 0)}`,
+          `scroll ${details.scrollDepth || 0}%`,
+        ].join(", ");
+      }
+
+      if (item.eventType === "page_view") {
+        return [
+          item.path || "/",
+          `scroll ${details.scrollDepth || 0}%`,
+        ].join(", ");
+      }
+
+      if (item.eventType === "scroll_depth") {
+        return `scroll ${details.depth || 0}%`;
+      }
+
+      if (item.eventType === "project_click") {
+        return [details.projectTitle, details.label].filter(Boolean).join(" / ");
+      }
+
+      if (item.eventType === "project_open") {
+        return details.projectTitle || "";
+      }
+
+      if (item.eventType === "contact_click") {
+        return [details.destination, details.label].filter(Boolean).join(" / ");
+      }
+
+      return details.projectTitle || details.destination || details.label || "";
     }
 
     function formatSeconds(value) {
