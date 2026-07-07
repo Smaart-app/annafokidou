@@ -98,7 +98,7 @@
     const secondsSinceLast = Math.round((now - lastHeartbeatAt) / 1000);
     const totalSeconds = Math.round((now - pageStartedAt) / 1000);
 
-    if (secondsSinceLast < 5 && !forceBeacon) return;
+    if (secondsSinceLast < 30 && !forceBeacon) return;
 
     lastHeartbeatAt = now;
     send(
@@ -174,7 +174,7 @@
       if (document.visibilityState === "hidden") trackTime(true);
     });
 
-    window.setInterval(() => trackTime(false), 15000);
+    window.setInterval(() => trackTime(false), 60000);
   }
 
   if (document.readyState === "loading") {

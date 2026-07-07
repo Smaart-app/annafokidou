@@ -2,6 +2,8 @@ const { randomUUID } = require("node:crypto");
 
 const STORE_NAME = "quiet-portfolio-analytics";
 const MAX_BODY_BYTES = 20 * 1024;
+const SUMMARY_EVENT_LIMIT = 1200;
+const BLOB_READ_CONCURRENCY = 20;
 const EVENT_TYPES = new Set([
   "page_view",
   "contact_click",
@@ -75,18 +77,31 @@ async function getSummary(event) {
   const store = createAnalyticsStore();
   if (store.error) return store.error;
 
-  const events = [];
-
-  for (const prefix of datePrefixes(days)) {
-    const listed = await store.value.list({ prefix }).catch(() => ({ blobs: [] }));
-
-    for (const blob of listed.blobs || []) {
-      const item = await store.value.get(blob.key, { type: "json" }).catch(() => null);
-      if (item && item.eventType) events.push(item);
-    }
-  }
+  const listedByDay = await Promise.all(
+    datePrefixes(days).map((prefix) => store.value.list({ prefix }).catch(() => ({ blobs: [] })))
+  );
+  const keys = listedByDay
+    .flatMap((listed) => listed.blobs || [])
+    .map((blob) => blob.key)
+    .filter(Boolean)
+    .slice(0, SUMMARY_EVENT_LIMIT);
+  const events = await readEventBlobs(store.value, keys);
 
   return respond(200, summarize(events, days));
+}
+
+async function readEventBlobs(store, keys) {
+  const events = [];
+
+  for (let index = 0; index < keys.length; index += BLOB_READ_CONCURRENCY) {
+    const batch = keys.slice(index, index + BLOB_READ_CONCURRENCY);
+    const items = await Promise.all(batch.map((key) => store.get(key, { type: "json" }).catch(() => null)));
+    items.forEach((item) => {
+      if (item && item.eventType) events.push(item);
+    });
+  }
+
+  return events;
 }
 
 function createAnalyticsStore() {
