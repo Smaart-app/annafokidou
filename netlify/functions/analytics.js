@@ -13,19 +13,26 @@ const EVENT_TYPES = new Set([
 ]);
 
 exports.handler = async function handler(event, context) {
-  if (event.httpMethod === "OPTIONS") {
-    return respond(204, "");
-  }
+  try {
+    if (event.httpMethod === "OPTIONS") {
+      return respond(204, "");
+    }
 
-  if (event.httpMethod === "POST") {
-    return saveEvent(event, context);
-  }
+    if (event.httpMethod === "POST") {
+      return saveEvent(event, context);
+    }
 
-  if (event.httpMethod === "GET") {
-    return getSummary(event);
-  }
+    if (event.httpMethod === "GET") {
+      return getSummary(event);
+    }
 
-  return respond(405, { error: "Method not allowed" });
+    return respond(405, { error: "Method not allowed" });
+  } catch (error) {
+    console.error("Analytics function failed", error);
+    return respond(500, {
+      error: "Analytics function failed. Check the Netlify function logs for details.",
+    });
+  }
 };
 
 async function saveEvent(event, context) {
@@ -157,19 +164,20 @@ function sanitizeEvent(input, requestEvent, now, context) {
 }
 
 function summarize(events, days) {
-  const pageViews = events.filter((item) => item.eventType === "page_view");
-  const sessions = new Set(events.map((item) => item.sessionId).filter(Boolean));
-  const contactClicks = events.filter((item) => item.eventType === "contact_click");
-  const projectClicks = events.filter((item) => item.eventType === "project_click");
-  const projectOpens = events.filter((item) => item.eventType === "project_open");
-  const scrollEvents = events.filter((item) => item.eventType === "scroll_depth");
-  const timeEvents = events.filter((item) => item.eventType === "time_on_page");
+  const cleanEvents = events.filter((item) => item && typeof item === "object");
+  const pageViews = cleanEvents.filter((item) => item.eventType === "page_view");
+  const sessions = new Set(cleanEvents.map((item) => cleanString(item.sessionId, 80)).filter(Boolean));
+  const contactClicks = cleanEvents.filter((item) => item.eventType === "contact_click");
+  const projectClicks = cleanEvents.filter((item) => item.eventType === "project_click");
+  const projectOpens = cleanEvents.filter((item) => item.eventType === "project_open");
+  const scrollEvents = cleanEvents.filter((item) => item.eventType === "scroll_depth");
+  const timeEvents = cleanEvents.filter((item) => item.eventType === "time_on_page");
 
   return {
     generatedAt: new Date().toISOString(),
     rangeDays: days,
     totals: {
-      events: events.length,
+      events: cleanEvents.length,
       pageViews: pageViews.length,
       sessions: sessions.size,
       contactClicks: contactClicks.length,
@@ -185,21 +193,21 @@ function summarize(events, days) {
     contactClicks: topCounts(contactClicks.map((item) => eventDetails(item).destination || eventDetails(item).label)),
     projectClicks: topCounts(projectClicks.map((item) => eventDetails(item).projectTitle || "Unknown project")),
     projectOpens: topCounts(projectOpens.map((item) => eventDetails(item).projectTitle || "Unknown project")),
-    daily: dailyCounts(events),
-    recent: events
+    daily: dailyCounts(cleanEvents),
+    recent: cleanEvents
       .slice()
-      .sort((a, b) => new Date(b.occurredAt) - new Date(a.occurredAt))
+      .sort((a, b) => new Date(b.occurredAt || 0) - new Date(a.occurredAt || 0))
       .slice(0, 50),
   };
 }
 
 function getEventCountry(item) {
-  return item.geo?.country || item.geo?.countryCode || item.country || "Unknown";
+  return cleanString(item?.geo?.country || item?.geo?.countryCode || item?.country, 80) || "Unknown";
 }
 
 function getEventRegion(item) {
-  const country = item.geo?.country || item.geo?.countryCode || item.country || "";
-  const region = item.geo?.region || item.region || "";
+  const country = cleanString(item?.geo?.country || item?.geo?.countryCode || item?.country, 80);
+  const region = cleanString(item?.geo?.region || item?.region, 80);
 
   if (country && region) return `${country} / ${region}`;
   return region;
@@ -297,7 +305,9 @@ function averageLatestBySession(events) {
 function dailyCounts(events) {
   const counts = {};
   events.forEach((item) => {
-    const day = item.occurredAt.slice(0, 10);
+    const day = cleanString(item.occurredAt, 40).slice(0, 10);
+    if (!day) return;
+
     counts[day] = counts[day] || { date: day, pageViews: 0, events: 0 };
     counts[day].events += 1;
     if (item.eventType === "page_view") counts[day].pageViews += 1;
@@ -307,7 +317,10 @@ function dailyCounts(events) {
 
 function topCounts(values) {
   const counts = new Map();
-  values.filter(Boolean).forEach((value) => counts.set(value, (counts.get(value) || 0) + 1));
+  values
+    .map((value) => cleanString(String(value || ""), 160))
+    .filter(Boolean)
+    .forEach((value) => counts.set(value, (counts.get(value) || 0) + 1));
   return [...counts.entries()]
     .map(([label, count]) => ({ label, count }))
     .sort((a, b) => b.count - a.count)

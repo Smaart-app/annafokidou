@@ -304,11 +304,18 @@
       }
 
       if (!response.ok) {
-        const message = await response.json().catch(() => null);
+        const responseText = await response.text().catch(() => "");
+        let message = null;
+        try {
+          message = responseText ? JSON.parse(responseText) : null;
+        } catch (error) {
+          message = null;
+        }
+
         status.textContent =
           response.status === 401
             ? "Unauthorized. Check ANALYTICS_DASHBOARD_TOKEN."
-            : message?.error || "Could not load analytics.";
+            : message?.error || `Could not load analytics. Function returned ${response.status}.`;
         return;
       }
 
