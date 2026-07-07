@@ -295,9 +295,20 @@
         days: daysInput.value,
       });
 
-      const response = await fetch(`${endpoint}?${params.toString()}`);
+      let response;
+      try {
+        response = await fetch(`${endpoint}?${params.toString()}`);
+      } catch (error) {
+        status.textContent = "Could not reach the analytics function. Open this dashboard through Netlify, not as a plain static file.";
+        return;
+      }
+
       if (!response.ok) {
-        status.textContent = response.status === 401 ? "Unauthorized. Check ANALYTICS_DASHBOARD_TOKEN." : "Could not load analytics.";
+        const message = await response.json().catch(() => null);
+        status.textContent =
+          response.status === 401
+            ? "Unauthorized. Check ANALYTICS_DASHBOARD_TOKEN."
+            : message?.error || "Could not load analytics.";
         return;
       }
 

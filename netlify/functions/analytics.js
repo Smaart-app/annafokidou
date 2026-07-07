@@ -46,11 +46,13 @@ async function saveEvent(event, context) {
 
   const now = new Date();
   const clean = sanitizeEvent(input, event, now, context);
-  const store = getAnalyticsStore();
+  const store = createAnalyticsStore();
+  if (store.error) return store.error;
+
   const day = now.toISOString().slice(0, 10);
   const key = `events/${day}/${clean.id}.json`;
 
-  await store.setJSON(key, clean);
+  await store.value.setJSON(key, clean);
 
   return respond(202, { ok: true });
 }
@@ -64,19 +66,39 @@ async function getSummary(event) {
   }
 
   const days = clampNumber(event.queryStringParameters?.days, 1, 90, 30);
-  const store = getAnalyticsStore();
+  const store = createAnalyticsStore();
+  if (store.error) return store.error;
+
   const events = [];
 
   for (const prefix of datePrefixes(days)) {
-    const listed = await store.list({ prefix }).catch(() => ({ blobs: [] }));
+    const listed = await store.value.list({ prefix }).catch(() => ({ blobs: [] }));
 
     for (const blob of listed.blobs || []) {
-      const item = await store.get(blob.key, { type: "json" }).catch(() => null);
+      const item = await store.value.get(blob.key, { type: "json" }).catch(() => null);
       if (item && item.eventType) events.push(item);
     }
   }
 
   return respond(200, summarize(events, days));
+}
+
+function createAnalyticsStore() {
+  try {
+    return { value: getAnalyticsStore() };
+  } catch (error) {
+    const isBlobsSetupError =
+      error?.name === "MissingBlobsEnvironmentError" ||
+      /Netlify Blobs/i.test(error?.message || "");
+
+    if (!isBlobsSetupError) throw error;
+
+    return {
+      error: respond(503, {
+        error: "Netlify Blobs is not configured. Set NETLIFY_SITE_ID and NETLIFY_BLOBS_TOKEN, or run through a linked Netlify dev environment.",
+      }),
+    };
+  }
 }
 
 function getAnalyticsStore() {
