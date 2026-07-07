@@ -180,7 +180,7 @@ function getEventRegion(item) {
   const region = item.geo?.region || item.region || "";
 
   if (country && region) return `${country} / ${region}`;
-  return region || country || "Unknown";
+  return region;
 }
 
 function getGeo(event, context) {
