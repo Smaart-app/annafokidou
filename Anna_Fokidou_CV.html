@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Anna Fokidou - Website & Digital Product Designer CV</title>
+  <style>
+    :root {
+      --ink: #18231f;
+      --body: #34413c;
+      --muted: #6c7772;
+      --soft: #f4efe7;
+      --line: #ded7cb;
+      --accent: #33584f;
+      --accent-light: #edf3ef;
+      --gold: #b89762;
+      --paper: #ffffff;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      background: #eee8de;
+      color: var(--ink);
+      font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+      line-height: 1.42;
+    }
+
+    body {
+      padding: 24px;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .page {
+      width: 210mm;
+      min-height: 297mm;
+      margin: 0 auto 24px;
+      padding: 15mm 17mm 13mm;
+      background: var(--paper);
+      box-shadow: 0 24px 70px rgba(24, 35, 31, 0.12);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .page::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 7px;
+      background: linear-gradient(90deg, var(--accent), #7f968d, var(--gold));
+    }
+
+    .top {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 28px;
+      padding-bottom: 15px;
+      border-bottom: 1px solid var(--line);
+      align-items: end;
+    }
+
+    .eyebrow {
+      margin: 0 0 12px;
+      font-size: 9.5px;
+      line-height: 1;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      font-weight: 800;
+      color: var(--accent);
+    }
+
+    h1 {
+      margin: 0;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 42px;
+      line-height: 0.96;
+      letter-spacing: -0.055em;
+      font-weight: 500;
+    }
+
+    .role {
+      margin-top: 9px;
+      font-size: 12.4px;
+      font-weight: 600;
+      color: var(--muted);
+    }
+
+    .top-contact {
+      text-align: right;
+      font-size: 9.8px;
+      line-height: 1.58;
+      color: var(--muted);
+    }
+
+    .top-contact strong {
+      display: block;
+      color: var(--ink);
+      font-size: 10.1px;
+      margin-bottom: 3px;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+    }
+
+    .intro {
+      display: grid;
+      grid-template-columns: 0.78fr 1.22fr;
+      gap: 34px;
+      margin-top: 18px;
+      padding-bottom: 15px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .statement {
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 20.2px;
+      line-height: 1.18;
+      letter-spacing: -0.038em;
+      color: var(--accent);
+    }
+
+    .profile p {
+      margin: 0 0 10px;
+      font-size: 10.45px;
+      color: var(--body);
+    }
+
+    .quick-build {
+      grid-column: 1 / -1;
+      margin-top: 10px;
+      padding-top: 10px;
+      border-top: 1px solid var(--line);
+      display: flex;
+      flex-wrap: nowrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      font-size: 8.55px;
+      color: var(--body);
+      line-height: 1.2;
+      white-space: nowrap;
+    }
+
+    .quick-build span {
+      display: inline-flex;
+      align-items: center;
+      min-width: 0;
+    }
+
+    .quick-build span:not(:last-child)::after {
+      content: "•";
+      color: var(--gold);
+      margin-left: 10px;
+    }
+
+    section {
+      margin-top: 20px;
+    }
+
+    h2 {
+      margin: 0 0 9px;
+      font-size: 9.8px;
+      line-height: 1;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent);
+      font-weight: 850;
+    }
+
+    .expertise {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+    }
+
+    .expertise-item {
+      padding-top: 10px;
+      padding-bottom: 8px;
+      border-top: 2px solid var(--accent);
+    }
+
+    .expertise-item strong {
+      display: block;
+      margin-bottom: 3px;
+      font-size: 10.2px;
+      color: var(--ink);
+    }
+
+    .expertise-item span {
+      display: block;
+      font-size: 9.35px;
+      color: var(--body);
+      line-height: 1.55;
+    }
+
+    .project-list {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0 20px;
+      border-top: 1px solid var(--line);
+    }
+
+    .project-group {
+      grid-column: 1 / -1;
+      margin: 0;
+      padding: 8px 0 5px;
+      border-bottom: 1px solid var(--line);
+      font-size: 8.2px;
+      font-weight: 850;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+
+    .project {
+      padding: 14px 0 16px;
+      border-bottom: 1px solid var(--line);
+      min-height: 148px;
+    }
+
+    .project:last-child,
+    .project:nth-last-child(2) {
+      border-bottom: 0;
+    }
+
+    .project-head {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 4px;
+    }
+
+    .project h3 {
+      margin: 0;
+      font-size: 12.5px;
+      line-height: 1.1;
+      color: var(--ink);
+    }
+
+    .project-type {
+      font-size: 8.2px;
+      letter-spacing: 0.13em;
+      text-transform: uppercase;
+      color: var(--accent);
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .project p {
+      margin: 0 0 6px;
+      font-size: 9.75px;
+      color: var(--body);
+    }
+
+    .tags {
+      font-size: 8.7px;
+      color: var(--muted);
+      line-height: 1.35;
+    }
+
+    .project-link {
+      display: inline-block;
+      margin-top: 7px;
+      font-size: 9px;
+      font-weight: 800;
+      color: var(--accent);
+    }
+
+    .project-link::after {
+      content: " →";
+      color: var(--gold);
+    }
+
+    .page-two {
+      padding-top: 18mm;
+    }
+
+    .journey {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 0;
+      border-top: 1px solid var(--line);
+    }
+
+    .journey-item {
+      display: grid;
+      grid-template-columns: 0.32fr 1fr;
+      gap: 20px;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .journey-title {
+      font-size: 10.8px;
+      font-weight: 850;
+      color: var(--ink);
+    }
+
+    .journey-meta {
+      margin-top: 3px;
+      font-size: 9.1px;
+      color: var(--muted);
+      line-height: 1.35;
+    }
+
+    .journey-copy p {
+      margin: 0 0 5px;
+      font-size: 9.85px;
+      color: var(--body);
+    }
+
+    .emphasis {
+      color: var(--accent);
+      font-weight: 750;
+    }
+
+    .foundations {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px 16px;
+      padding-top: 9px;
+      border-top: 1px solid var(--line);
+    }
+
+    .foundation strong {
+      display: block;
+      margin-bottom: 2px;
+      font-size: 10.1px;
+      color: var(--ink);
+    }
+
+    .foundation span {
+      display: block;
+      font-size: 9.25px;
+      color: var(--body);
+      line-height: 1.34;
+    }
+
+    .bottom-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 24px;
+      align-items: start;
+    }
+
+    .skill-text,
+    .language-text {
+      margin: 0;
+      font-size: 9.8px;
+      color: var(--body);
+    }
+
+    .contact-strip {
+      margin-top: 14px;
+      padding-top: 10px;
+      border-top: 1px solid var(--line);
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      font-size: 9.7px;
+      color: var(--body);
+    }
+
+    .contact-strip span {
+      display: block;
+      margin-bottom: 2px;
+      font-size: 8.7px;
+      letter-spacing: 0.11em;
+      text-transform: uppercase;
+      font-weight: 800;
+      color: var(--accent);
+    }
+
+    .closing {
+      margin-top: 13px;
+      padding: 10px 12px;
+      background: var(--accent-light);
+      border-left: 3px solid var(--accent);
+      font-size: 9.75px;
+      color: var(--body);
+    }
+
+    footer {
+      position: absolute;
+      left: 17mm;
+      right: 17mm;
+      bottom: 8mm;
+      padding-top: 7px;
+      border-top: 1px solid var(--line);
+      display: flex;
+      justify-content: space-between;
+      font-size: 8.8px;
+      color: var(--muted);
+    }
+
+    @page {
+      size: A4;
+      margin: 0;
+    }
+
+    @media print {
+      body {
+        padding: 0;
+        background: #ffffff;
+      }
+
+      .page {
+        margin: 0;
+        box-shadow: none;
+        page-break-after: always;
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main>
+    <section class="page">
+      <header class="top">
+        <div>
+          <p class="eyebrow">Website & Digital Product Designer</p>
+          <h1>Anna Fokidou</h1>
+          <div class="role">Custom websites • Information architecture<br>Multilingual digital products</div>
+        </div>
+
+        <div class="top-contact">
+          <strong>Based in Belgium</strong>
+          Remote / mostly remote roles<br />
+          Website design • Front-end website building<br />
+          Content structure • Digital product thinking
+        </div>
+      </header>
+
+      <section class="intro">
+        <div class="statement">
+          I design websites and digital products that bring structure to complexity.
+        </div>
+
+        <div class="profile">
+          <p>I create structured digital ecosystems: custom websites, embedded tools and content-first digital products with a strong focus on multilingual experiences and long-term scalability.</p>
+          <p>Starting from a blank page, I combine website design, front-end implementation, responsive layouts and information architecture to turn ideas into clear, usable and expandable digital experiences.</p>
+          <p>My path combines design, real estate, technical documentation and digital product creation. Today, I use that background to make complex information easier to understand and use.</p>
+
+        </div>
+
+        <div class="quick-build">
+          <span>Embedded widgets</span>
+          <span>Content-first platforms</span>
+          <span>Buyer-facing decision flows</span>
+          <span>Publishing-ready structures</span>
+          <span>Responsive implementation</span>
+          <span>Scalable website structures</span>
+        </div>
+      </section>
+
+      <section>
+        <h2>Core Expertise</h2>
+        <div class="expertise">
+          <div class="expertise-item">
+            <strong>Website Design</strong>
+            <span>Layout, typography, navigation, visual hierarchy and user-friendly page structures.</span>
+          </div>
+          <div class="expertise-item">
+            <strong>Front-end Building</strong>
+            <span>HTML, CSS, responsive implementation, UI refinement and website maintenance.</span>
+          </div>
+          <div class="expertise-item">
+            <strong>Information Architecture</strong>
+            <span>Organising complex content into clear, logical and scalable digital experiences.</span>
+          </div>
+          <div class="expertise-item">
+            <strong>Content Systems</strong>
+            <span>Articles, galleries, multilingual content, reusable sections and publishing flows.</span>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <h2>Selected Digital Products & Website Systems</h2>
+        <div class="project-list">
+          <p class="project-group">Digital Products</p>
+          <article class="project">
+            <div class="project-head">
+              <h3>SMAart Insight</h3>
+              <span class="project-type">Buyer decision layer</span>
+            </div>
+            <p>Designed and built a buyer-facing decision-support application for real estate listings, helping users explore acquisition costs, renovation assumptions, rental inputs and property-use scenarios before contacting an agent.</p>
+            <div class="tags">UX • Information Architecture • Decision Flows • Responsive UI • Multilingual Structure</div>
+            <a class="project-link" href="https://smaart-app.com/pilot">View live pilot</a>
+          </article>
+
+          <article class="project">
+            <div class="project-head">
+              <h3>SMAart View</h3>
+              <span class="project-type">Embedded experience</span>
+            </div>
+            <p>Created a lightweight real-estate insights widget that shows anonymous website activity, including listing views, top listing attention, top area interest and live pulse without cookies, logins or dashboards.</p>
+            <div class="tags">Widget UI • Embedded Experience • GDPR-safe • Data Presentation • Real Estate</div>
+            <a class="project-link" href="https://view.smaart-app.com">View widget</a>
+          </article>
+
+          <p class="project-group">Website Systems & Platforms</p>
+          <article class="project">
+            <div class="project-head">
+              <h3>Advisory Website System</h3>
+              <span class="project-type">Service website system</span>
+            </div>
+            <p>Designed a multilingual advisory website foundation for consultants and service businesses, explored through multiple visual directions while sharing one scalable content and UX structure.</p>
+            <div class="tags">Website System • Service Pages • Content Architecture • Multilingual • Visual Directions</div>
+            <a class="project-link" href="https://clarity-advisory-demo.netlify.app/en">View website</a>
+          </article>
+
+          <article class="project">
+            <div class="project-head">
+              <h3>HitSnap</h3>
+              <span class="project-type">Photography platform</span>
+            </div>
+            <p>Designed a multilingual photography portfolio for photographers and creative studios, combining gallery presentation, storytelling, articles, contact flow and an expandable content structure.</p>
+            <div class="tags">Portfolio Design • Gallery • Articles • Storytelling • Multilingual</div>
+            <a class="project-link" href="https://hitsnap.netlify.app/en">View website</a>
+          </article>
+
+          <article class="project">
+            <div class="project-head">
+              <h3>Luma Atelier</h3>
+              <span class="project-type">E-commerce experience</span>
+            </div>
+            <p>Created an e-commerce concept focused on product presentation, storytelling, clean navigation and intuitive shopping journeys.</p>
+            <div class="tags">Product Pages • UI Design • Responsive Design • Visual Hierarchy • Shopping Flow</div>
+            <a class="project-link" href="https://luma-atelier.netlify.app">View project</a>
+          </article>
+
+          <article class="project">
+            <div class="project-head">
+              <h3>Hitlift</h3>
+              <span class="project-type">Publishing website</span>
+            </div>
+            <p>Designed a multilingual content website centred on readability, article presentation, simple navigation and a publishing-ready structure for ongoing content growth.</p>
+            <div class="tags">Content Design • Articles • Readability • Multilingual • Publishing Structure</div>
+            <a class="project-link" href="https://hitlift.app/en">View website</a>
+          </article>
+        </div>
+      </section>
+
+      <footer>
+        <span>Selected work — additional projects available in the online portfolio</span>
+        <span>Page 1/2</span>
+      </footer>
+    </section>
+
+    <section class="page page-two">
+      <section>
+        <h2>Professional Journey</h2>
+        <div class="journey">
+          <div class="journey-item">
+            <div>
+              <div class="journey-title">Digital Product & Website Builder</div>
+              <div class="journey-meta">SMAart Insight<br />2024–Present</div>
+            </div>
+            <div class="journey-copy">
+              <p>Created a buyer-facing real estate decision layer from concept to working product, including interface structure, content flows, scenario guidance, multilingual patterns and responsive front-end implementation.</p>
+              <p class="emphasis">Current focus: turning complex real-world decision processes into clear, usable and maintainable digital experiences.</p>
+            </div>
+          </div>
+
+          <div class="journey-item">
+            <div>
+              <div class="journey-title">Technical Drafter</div>
+              <div class="journey-meta">AutoCAD 2D<br />2019–2025</div>
+            </div>
+            <div class="journey-copy">
+              <p>Worked with technical drawings, electrical schemes, red-marking revisions and structured documentation in a complex industrial environment.</p>
+              <p class="emphasis">Strengthened precision, technical reading, documentation discipline and the ability to translate complex information into clear structured output.</p>
+            </div>
+          </div>
+
+          <div class="journey-item">
+            <div>
+              <div class="journey-title">Dossier & Process Management</div>
+              <div class="journey-meta">Stad Gent<br />2016–2017</div>
+            </div>
+            <div class="journey-copy">
+              <p>Managed administrative dossiers, permits and supporting documentation within formal procedures, preparing information for review and decision-making.</p>
+              <p class="emphasis">Built a strong foundation in process clarity, documentation flow and careful information organisation.</p>
+            </div>
+          </div>
+
+          <div class="journey-item">
+            <div>
+              <div class="journey-title">Real Estate Office Owner</div>
+              <div class="journey-meta">Athens<br />2003–2007</div>
+            </div>
+            <div class="journey-copy">
+              <p>Owned and operated an independent real estate office, guiding buyers through property information, renovation implications, additional costs, appointments and practical decision-making.</p>
+              <p class="emphasis">This experience became the foundation for SMAart Insight and my interest in buyer-facing decision support.</p>
+            </div>
+          </div>
+
+          <div class="journey-item">
+            <div>
+              <div class="journey-title">Design, Retail & Operations</div>
+              <div class="journey-meta">Athens<br />Earlier experience</div>
+            </div>
+            <div class="journey-copy">
+              <p>Worked across furniture, decoration, gallery operations and administrative roles, combining product presentation, customer guidance, organisation and commercial awareness.</p>
+              <p class="emphasis">Developed the practical ability to connect visual presentation, user needs and operational structure.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <h2>Education & Professional Development</h2>
+        <div class="foundations">
+          <div class="foundation">
+            <strong>Graphic Design & Interior Design</strong>
+            <span>Foundation in visual composition, spatial thinking, layout and presentation.</span>
+          </div>
+          <div class="foundation">
+            <strong>Web Development</strong>
+            <span>HTML, CSS, responsive websites and front-end website building.</span>
+          </div>
+          <div class="foundation">
+            <strong>AutoCAD & Technical Drawing</strong>
+            <span>Technical drawings, construction logic, accuracy and structured documentation.</span>
+          </div>
+          <div class="foundation">
+            <strong>ArcGIS</strong>
+            <span>Spatial information, map visualisation and geographic analysis.</span>
+          </div>
+          <div class="foundation">
+            <strong>Real Estate Training</strong>
+            <span>Property transactions, buyer guidance and practical acquisition context.</span>
+          </div>
+          <div class="foundation">
+            <strong>AI-assisted Workflows</strong>
+            <span>Using AI tools to support product structure, documentation and website development.</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="bottom-grid">
+        <div>
+          <h2>Technical & Creative Keywords</h2>
+          <p class="skill-text">Website Design • Front-end Development • HTML • CSS • Responsive Design • UI Design • UX Thinking • Information Architecture • Content Architecture • Multilingual Websites • Content Publishing • User Flows • Website Maintenance • Technical Documentation • Digital Workflows • AI-assisted Development</p>
+        </div>
+
+        <div>
+          <h2>Languages</h2>
+          <p class="language-text">Greek — Native<br />English — Strong written communication; comfortable speaking in professional contexts<br />Dutch — Conversational</p>
+        </div>
+      </section>
+
+      <div class="closing">
+        My professional path spans design, real estate, technical documentation and digital product creation. Today, I combine these experiences to design websites and digital products that make complex information easier to understand and use.
+      </div>
+
+      <section>
+        <h2>Contact</h2>
+        <div class="contact-strip">
+          <div>
+            <span>Portfolio</span>
+            <a href="https://annafokidou.netlify.app">annafokidou.netlify.app</a>
+          </div>
+          <div>
+            <span>LinkedIn</span>
+            <a href="https://www.linkedin.com/in/annafokidou">linkedin.com/in/annafokidou</a>
+          </div>
+          <div>
+            <span>Email</span>
+            <a href="mailto:anna.fokidou@gmail.com">anna.fokidou@gmail.com</a>
+          </div>
+        </div>
+      </section>
+
+      <footer>
+        <span>Anna Fokidou — Website & Digital Product Designer CV</span>
+        <span>Page 2/2</span>
+      </footer>
+    </section>
+  </main>
+</body>
+</html>
