@@ -18,7 +18,6 @@ The analytics setup tracks:
 - Referrer domain and UTM fields
 - Country and region when Netlify provides geo data
 - Email, LinkedIn and CV clicks
-- Project opens
 - Project clicks
 - Scroll depth
 - Approximate time on page

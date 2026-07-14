@@ -3,7 +3,6 @@
   const sessionKey = "af_analytics_session";
   const pageStartedAt = Date.now();
   const sentScrollMarks = new Set();
-  const openedProjects = new Set();
   let lastHeartbeatAt = pageStartedAt;
 
   function getSessionId() {
@@ -141,30 +140,8 @@
     }
   }
 
-  function observeProjectOpens() {
-    if (!("IntersectionObserver" in window)) return;
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (!entry.isIntersecting || entry.intersectionRatio < 0.55) return;
-
-          const title = entry.target.querySelector("h3")?.textContent.trim();
-          if (!title || openedProjects.has(title)) return;
-
-          openedProjects.add(title);
-          send("project_open", { projectTitle: title });
-        });
-      },
-      { threshold: [0.55] }
-    );
-
-    document.querySelectorAll(".project").forEach((project) => observer.observe(project));
-  }
-
   function boot() {
     send("page_view", { scrollDepth: getScrollDepth() });
-    observeProjectOpens();
     trackScrollDepth();
 
     document.addEventListener("click", trackClick);

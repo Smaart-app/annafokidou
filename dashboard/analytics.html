@@ -256,10 +256,6 @@
         <div id="projectClicks"></div>
       </div>
       <div class="panel">
-        <h2>Project Opens</h2>
-        <div id="projectOpens"></div>
-      </div>
-      <div class="panel">
         <h2>Daily Views</h2>
         <div id="daily"></div>
       </div>
@@ -341,7 +337,6 @@
       bars("regions", data.regions || []);
       bars("contactClicks", data.contactClicks);
       bars("projectClicks", data.projectClicks);
-      bars("projectOpens", data.projectOpens);
       bars("daily", data.daily.map((item) => ({ label: item.date, count: item.pageViews })));
       recent(data.recent);
     }
@@ -436,10 +431,6 @@
 
       if (item.eventType === "project_click") {
         return [details.projectTitle, details.label].filter(Boolean).join(" / ");
-      }
-
-      if (item.eventType === "project_open") {
-        return details.projectTitle || "";
       }
 
       if (item.eventType === "contact_click") {

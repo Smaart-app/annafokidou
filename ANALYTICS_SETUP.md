@@ -7,7 +7,6 @@
 - Country and region when available from Netlify geo data
 - Email, LinkedIn and CV clicks
 - Project link clicks
-- Project opens when a project card becomes visible
 - Scroll depth at 25%, 50%, 75%, 90% and 100%
 - Approximate time on page via heartbeat and page-hide events
 

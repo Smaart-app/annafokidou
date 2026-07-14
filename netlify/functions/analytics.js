@@ -8,7 +8,6 @@ const EVENT_TYPES = new Set([
   "page_view",
   "contact_click",
   "project_click",
-  "project_open",
   "scroll_depth",
   "time_on_page",
 ]);
@@ -179,12 +178,13 @@ function sanitizeEvent(input, requestEvent, now, context) {
 }
 
 function summarize(events, days) {
-  const cleanEvents = events.filter((item) => item && typeof item === "object");
+  const cleanEvents = events.filter(
+    (item) => item && typeof item === "object" && item.eventType !== "project_open"
+  );
   const pageViews = cleanEvents.filter((item) => item.eventType === "page_view");
   const sessions = new Set(cleanEvents.map((item) => cleanString(item.sessionId, 80)).filter(Boolean));
   const contactClicks = cleanEvents.filter((item) => item.eventType === "contact_click");
   const projectClicks = cleanEvents.filter((item) => item.eventType === "project_click");
-  const projectOpens = cleanEvents.filter((item) => item.eventType === "project_open");
   const scrollEvents = cleanEvents.filter((item) => item.eventType === "scroll_depth");
   const timeEvents = cleanEvents.filter((item) => item.eventType === "time_on_page");
 
@@ -197,7 +197,6 @@ function summarize(events, days) {
       sessions: sessions.size,
       contactClicks: contactClicks.length,
       projectClicks: projectClicks.length,
-      projectOpens: projectOpens.length,
       averageScrollDepth: average(scrollEvents.map((item) => eventDetails(item).depth)),
       averageTimeOnPageSeconds: averageLatestBySession(timeEvents),
     },
@@ -207,7 +206,6 @@ function summarize(events, days) {
     regions: topCounts(pageViews.map((item) => getEventRegion(item))),
     contactClicks: topCounts(contactClicks.map((item) => eventDetails(item).destination || eventDetails(item).label)),
     projectClicks: topCounts(projectClicks.map((item) => eventDetails(item).projectTitle || "Unknown project")),
-    projectOpens: topCounts(projectOpens.map((item) => eventDetails(item).projectTitle || "Unknown project")),
     daily: dailyCounts(cleanEvents),
     recent: cleanEvents
       .slice()
